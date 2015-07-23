@@ -1,0 +1,1 @@
+FROM linuxkonsult/chef-solo
