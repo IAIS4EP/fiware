@@ -1,1 +1,1 @@
-FROM linuxkonsult/chef-solo
+FROM jr42 / chef-solo-centos
