@@ -1,1 +1,1 @@
-FROM jr42 / chef-solo-centos
+FROM jr42/chef-solo-centos
