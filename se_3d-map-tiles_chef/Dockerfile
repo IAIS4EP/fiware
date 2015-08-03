@@ -6,7 +6,7 @@ RUN apt-get update && apt-get -y install subversion
 
 ENV RECIPE_PATH /var/chef/cookbooks/3DMapTiles
 
-
+RUN mkdir /etc/chef
 RUN echo "file_cache_path \"/var/chef-solo\"\ncookbook_path \"/var/chef-solo/cookbooks\n\"" > /etc/chef/solo.rb
 
 WORKDIR /opt/
