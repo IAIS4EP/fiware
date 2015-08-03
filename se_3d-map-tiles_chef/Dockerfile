@@ -15,11 +15,16 @@ WORKDIR /opt/
 RUN svn export --non-interactive --trust-server-cert  \
 https://forge.fiware.org/scmrepos/svn/testbed/trunk/cookbooks/SESoftware/3DMapTiles/ $RECIPE_PATH  
 
+RUN pwd
+RUN ls -alh $RECIPE_PATH
+
+
 # write Chef solo install script on the fly
 RUN echo "{ \"run_list\" : \"recipe[3DMapTiles::4.1.3_install]\" }" > $RECIPE_PATH/install.js
 
 RUN pwd
-RUN ls $RECIPE_PATH
+RUN ls -alh $RECIPE_PATH
+
 
 # will clone git repo with SE and configure Apache
 RUN chef-solo -j $RECIPE_PATH/install.js
