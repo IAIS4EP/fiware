@@ -1,4 +1,4 @@
-FROM tpires / nagios
+FROM tpires/nagios
 
 # added from webratio/java:7
 
