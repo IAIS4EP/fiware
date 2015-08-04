@@ -2,7 +2,9 @@ FROM tpires/nagios
 
 # added from webratio/java:7
 
+RUN
 RUN apt-get update -y && \
+    apt-get install -y python-software-properties && \
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:webupd8team/java -y && \
     apt-get update -y && \
