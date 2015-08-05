@@ -11,7 +11,7 @@
 
 	<target name="nagios" description="Concatenate all Nagios config files">
 	  <concat destfile="build/nagios.cfg" encoding="UTF-8" eol="lf" fixlastline="yes">
-	    <fileset dir="nagios_configs" includes="**/*.cfg"  />
+	    <fileset dir="nagios_conf" includes="**/*.cfg"  />
 	  </concat>
 	</target>
 	
