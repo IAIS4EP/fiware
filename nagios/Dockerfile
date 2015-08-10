@@ -63,10 +63,10 @@ RUN ls -alh
 
 RUN cp build/nagios.cfg  /etc/nagios3/conf.d
 
-#RUN sed -n '1315,1330p; 1331q' /etc/nagios3/nagios.cfg
+#RUN sed -n '480,485p; 486q' /etc/nagios3/nagios.cfg
 
 
-RUN /etc/init.d/nagios3 restart
+#RUN /etc/init.d/nagios3 restart
 
 
 
