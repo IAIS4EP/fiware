@@ -1,1 +1,2 @@
-FROM jr42/chef-solo-centos
+# big thanks to bitergia.com! :-)
+FROM bitergia/idm-keyrock
