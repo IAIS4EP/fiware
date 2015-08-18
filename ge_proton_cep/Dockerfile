@@ -14,7 +14,7 @@ RUN apt-get -y install tomcat7 tomcat7-admin
 RUN echo "JAVA_HOME=/usr/lib/jvm/java-7-oracle" >> /etc/default/tomcat7
 EXPOSE 8080
 # Install git
-RUN apt-get -y install git
+RUN apt-get -y install git maven
 WORKDIR /root
 
 # Clone Proton repo
@@ -22,7 +22,7 @@ RUN git clone https://github.com/ishkin/Proton.git
 # Ubuntu  Tomcat package sets CATALINA_HOME to this folder, and CATALINA_BASE to /var/lib/tomcat7. Proton expects them to be in the same folder.
 # This is a hack in order to get Proton running on Ubuntu official Tomcat packages
 # This is suboptimal, in case Proton.properties or JSON application files change syntax, the builds would fail and these files should also be updated.
-RUN apt-get install maven
+
 WORKDIR /root/Proton
 RUN mvn clean install
 WORKDIR /root/Proton/IBM Proactive Technology Online 
