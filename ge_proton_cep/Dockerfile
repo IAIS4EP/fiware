@@ -54,4 +54,4 @@ COPY ./docker_smoketest.sh /root/docker/
 ENV CATALINA_BASE /var/lib/tomcat7/
 ENV CATALINA_HOME /usr/share/tomcat7/
 CMD /usr/share/tomcat7/bin/catalina.sh run
-CMD /root/docker/docker_smoketest.sh run
+#CMD /root/docker/docker_smoketest.sh run
