@@ -7,4 +7,7 @@ ADD MockNotifyContextRecipient.war /usr/local/tomcat/webapps/
 ADD EspR4FastDataSanityCheck.jar /root/
 
 EXPOSE 8080
-CMD ["catalina.sh", "run"]
+RUN ["catalina.sh", "run"]
+
+# execute internal vendor sanity check
+CMD java -jar EspR4FastDataSanityCheck.jar
