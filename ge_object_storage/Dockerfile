@@ -59,3 +59,4 @@ VOLUME	/swift/nodes
 EXPOSE 8080
 EXPOSE 22
 CMD ["/bin/bash", "/swift/bin/launch.sh"]
+
