@@ -16,7 +16,7 @@ HOST_URL=$HOST:$PORT
 
 echo "Running tests on http://$HOST_URL"
 
-echo "Run smoke tests for german ContentOptimisationSE."
+echo "Run smoke tests for se_content_optimisation (German)."
 ANNOTATE_RESULT=`curl -X PUT -H "Content-Type:text/plain" -d 'Angela Merkel regiert Deutschlan von Berlin aus.' -s -o /dev/null -w "%{http_code}" $HOST_URL/de/ingest/optimize/iais/smoketest/justAText/2`
 if [ "$ANNOTATE_RESULT" -ne "200" ]; then
         echo "Curl command for annotating text failed." 
@@ -57,7 +57,7 @@ else
         echo "Curl command for deletion of item successful."
 fi
 
-echo "Run smoke tests for english ContentOptimisationSE."
+echo "Run smoke tests for se_content_optimisation (English)."
 ANNOTATE_RESULT=`curl -X PUT -H "Content-Type:text/plain" -d 'Barak Obama works at the White House in Washngton,D.C..' -s -o /dev/null -w "%{http_code}" $HOST_URL/en/ingest/optimize/iais/smoketest/justAText/2`
 if [ "$ANNOTATE_RESULT" -ne "200" ]; then
         echo "Curl command for annotating text failed."
