@@ -5,6 +5,9 @@ PORT=$2
 
 URL="$HOST:$PORT"
 
+echo Get token:
+curl -v -H 'X-Storage-User: test:tester' -H 'X-Storage-Pass: testing' $URL
+
 echo Create container:
 
 curl -X PUT -i -H "X-Auth-Token: $TOKEN" $URL/testcontainer
