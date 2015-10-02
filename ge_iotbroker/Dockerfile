@@ -6,5 +6,7 @@ RUN apt-get install svn
 
 RUN svn export $COOKBOOK_URL
 
+## this is a test
+
 # and then?..
 RUN chef-solo ####
