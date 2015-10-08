@@ -1,4 +1,4 @@
-FROM fiware/iotbroker # official image
+FROM fiware/iotbroker
 
 
 RUN wget --no-check-certiﬁcate https://raw.githubusercontent.com/fgalan/ oauth2-example-orion-client/master/token_script.sh
