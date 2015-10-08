@@ -1,5 +1,10 @@
 # add your smoketest here - e.g. curl based API test of a GE
 
+#wget --no-check-certiﬁcate https://raw.githubusercontent.com/fgalan/ oauth2-example-orion-client/master/token_script.sh
+## Once is downloaded, execute it and it will ask for your fiware account details, introduce it and you will get the token.
+## If this script doesn't work for you, you can generate it manually executing this command
+#curl -s -d "{\"username\": \”username@yourdomain.com \”, \"password\":\"yourpassword\"}" -H "Content-type: application/json" https://orion.lab.fiware.org/token
+
 ## Let's check to Santander's City sensor's information.
 
 curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/urn:smartsantander:testbed:357 \ -X GET -s -S --header 'Content-Type: application/json'  --header 'Accept: application/json' \  --header  "X-Auth-Token: YOUR_TOKEN" | python -mjson.tool
