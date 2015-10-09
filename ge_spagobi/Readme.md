@@ -25,7 +25,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 The port number `$THIS_IS_YOUR_PORT` is the port to access the SpagoBI installation.
 
 
-Finally start your Webbrowser and go to `$THIS_IS_YOUR_IP:$THIS_IS_YOUR_PORT` and you should be provided with the SpagoBI welcome screen.
+Finally start your Webbrowser and go to `$THIS_IS_YOUR_IP:$THIS_IS_YOUR_PORT/SpagoBI` and you should be provided with the SpagoBI welcome screen.
 
 
 
