@@ -37,3 +37,8 @@ if [[ -z $port ]]; then
 else
 	echo "Open port found at $port_container\n"
 fi
+
+
+curl https://bitbucket.org/eglobalmark/egm_testexecorioncb/raw/b69758c3aa5f386e8e30d783d92c93a8e6783a49/testExecOrionCB.jar -k -o egmFunctionalTests.jar
+
+java -jar egmFunctionalTests.jar -p 1026 -ip $IP -o http://207.249.127.73:7070/report -t 2 
