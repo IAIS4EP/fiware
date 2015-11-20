@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="scripts/KeyrockConfig.js" language="JavaScript"></script>
+    <script src="scripts/KeyrockManager.js" language="JavaScript"></script>
+    <script src="scripts/functions.js" language="JavaScript"></script>
+    <script language="JavaScript" src="scripts/functions.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+<table class="settings" border="0" width="100%">
+    <tr id="settings_title">
+        <td width="25%"><b>Instance URL</b></td>
+        <td width="25%"><b>Client Id</b></td>
+        <td width="25%"><b>Redirect URI</b></td>
+    </tr>
+    <tr id="settings_description">
+        <td align="center"><input id="instance_url" type="text" name="url" placeholder="Instance URL" onchange="instanceChange();" onkeyup="instanceChange();" onpaste="instanceChange();" oninput="instanceChange();"></td>
+        <td align="center"><input id="client_id" type="text" name="client_id" placeholder="Client Id"></td>
+        <td align="center"><input id="redirect_uri" type="text" name="redirect_uri" placeholder="Redirect URI"></td>
+    </tr>
+    <tr id="additional_settings">
+    </tr>
+</table>
+
+
+<table border="0" class="accessToken">
+    <td><b>Access Token:</b></td>
+    <td id="access_token_placeholder" width="50%" align="center">Please grant access to generate an access token</td>
+    <td>
+        <select id="grant_type" onchange="setSettingLayout()">
+            <option value="code">Code Grant</option>
+            <option value="implicit">Implicit</option>
+            <option value="password">Password</option>
+            <option value="credentials">Client Credentials</option>
+        </select>
+    </td>
+    <td>
+        <button onclick="javascript:grantAccessButtonClicked()">Grant Access</button>
+    </td>
+</table>
+
+<table class="query" border="0">
+    <tr>
+        <td><b>Query:</b></td>
+        <td id="instance_url_show">http://</td>
+        <td><input type="text" name="uri" id="query_uri" placeholder="query URI"></td>
+        <td>
+            <select id="query_method">
+                <option value="get">GET</option>
+                <option value="post">POST</option>
+            </select>
+        </td>
+        <td>
+            <button onclick="sendQuery()">Send</button>
+        </td>
+    </tr>
+</table>
+
+<pre id="result">
+
+</pre>
+
+</body>
+</html>

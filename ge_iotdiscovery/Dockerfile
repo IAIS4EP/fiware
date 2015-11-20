@@ -1,1 +1,1 @@
-FROM jr42/chef-solo-centos
+FROM fiware/fiware-iot-discovery-ngsi9
