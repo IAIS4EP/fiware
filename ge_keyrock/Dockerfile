@@ -1,2 +1,2 @@
-# big thanks to bitergia.com! :-)
-FROM bitergia/idm-keyrock:4.3.0
+FROM l3iggs/lamp
+
