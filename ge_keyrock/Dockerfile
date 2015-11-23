@@ -1,2 +1,2 @@
-FROM l3iggs/lamp
+FROM fiware/idm
 
