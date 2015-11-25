@@ -23,6 +23,8 @@ ENV SPAGOBI_DIRECTORY /home/SpagoBI
 ENV MYSQL_SCRIPT_DIRECTORY /home/MySQL
 WORKDIR ${SPAGOBI_DIRECTORY}/bin
 
+COPY ./MySQL_custom_setup.sql ${SPAGOBI_DIRECTORY}
+
 #make the script executable by bash (not only sh) and
 #make spagobi running forever without exiting
 RUN sed -i "s/bin\/sh/bin\/bash/" startup.sh && \
