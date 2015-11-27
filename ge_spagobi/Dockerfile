@@ -9,10 +9,15 @@ RUN apt-get update && apt-get install -y wget coreutils unzip mysql-client
 
 #download spagobi all in one and extract it
 WORKDIR /home
-RUN wget "${SPAGOBI_URL}" -O SpagoBI.zip && \
-	unzip SpagoBI.zip && \
-	mv ${SPAGOBI_VERSION} SpagoBI && \
-	rm SpagoBI.zip
+#RUN wget "${SPAGOBI_URL}" -O SpagoBI.zip && \
+#	unzip SpagoBI.zip && \
+#	mv ${SPAGOBI_VERSION} SpagoBI && \
+#	rm SpagoBI.zip
+
+COPY ./SpagoBI.zip ./
+RUN unzip SpagoBI.zip && \
+    mv ${SPAGOBI_VERSION} SpagoBI && \
+    rm SpagoBI.zip
 
 #download mysql scripts
 RUN wget "${SPAGOBI_MYSQL_SCRIPT_URL}" -O MySQL.zip && \
@@ -21,9 +26,12 @@ RUN wget "${SPAGOBI_MYSQL_SCRIPT_URL}" -O MySQL.zip && \
 
 ENV SPAGOBI_DIRECTORY /home/SpagoBI
 ENV MYSQL_SCRIPT_DIRECTORY /home/MySQL
-WORKDIR ${SPAGOBI_DIRECTORY}/bin
 
-COPY ./MySQL_custom_setup.sql ${SPAGOBI_DIRECTORY}
+WORKDIR ${SPAGOBI_DIRECTORY}
+
+COPY ./MySQL_custom_setup.sql ./
+
+WORKDIR ${SPAGOBI_DIRECTORY}/bin
 
 #make the script executable by bash (not only sh) and
 #make spagobi running forever without exiting
