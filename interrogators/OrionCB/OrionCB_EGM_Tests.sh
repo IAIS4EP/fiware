@@ -32,3 +32,4 @@ rm -r ./orioncbtesting
 
 echo "Bye Bye! Exit with status code ${STATUS}"
 exit $STATUS
+
