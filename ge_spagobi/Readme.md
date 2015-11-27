@@ -97,7 +97,7 @@ Start the Web browser, go to `THIS_IS_YOUR_IP:THIS_IS_YOUR_PORT/SpagoBI` and you
 #### Dump the Database
 
 ```bash
-[ge_spagobi]$ docker exec -i ${MYSQL_IMAGE_NAME} mysqldump ${MYSQL_DATABASE} -u${MYSQL_USER} -p${MYSQL_PASSWORD} -t --compact > MySQL_custom_setup.sql
+[ge_spagobi]$ docker exec -i ${MYSQL_IMAGE_NAME} mysqldump ${MYSQL_DATABASE} -u${MYSQL_USER} -p${MYSQL_PASSWORD} > MySQL_custom_setup.sql
 ```
 
 Keep in mind that there might be sensitive data (user credentials to access MySQL databases) in the file *MySQL_custom_setup.sql*. So don't add it to a public repository or make it publicly available.
