@@ -30,5 +30,5 @@ echo "Deleting created directory"
 cd ..
 rm -r ./orioncbtesting
 
-echo "Bye bye!! Exit with status code ${STATUS}"
+echo "Bye bye! Exit with status code ${STATUS}"
 exit $STATUS
