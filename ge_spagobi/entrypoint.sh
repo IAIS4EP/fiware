@@ -41,9 +41,9 @@ if [ -n "$DB_ENV_MYSQL_DATABASE" ]; then
 	if [ -z "$Result" ]; then
 		mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USER} -p${DB_PASS} ${DB_DB} --execute="source $MYSQL_SCRIPT_DIRECTORY/MySQL_create.sql"
 		mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USER} -p${DB_PASS} ${DB_DB} --execute="source $MYSQL_SCRIPT_DIRECTORY/MySQL_create_quartz_schema.sql"
-		if [ -s "${SPAGOBI_DIRECTORY}/MySQL_custom_setup.sql" ]
+		if [ -s "${MYSQL_SCRIPT_DIRECTORY}/MySQL_custom_setup.sql" ]
 		then
-			mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USER} -p${DB_PASS} ${DB_DB} --execute="source ${SPAGOBI_DIRECTORY}/MySQL_custom_setup.sql"
+			mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USER} -p${DB_PASS} ${DB_DB} --execute="source ${MYSQL_SCRIPT_DIRECTORY}/MySQL_custom_setup.sql"
 		fi
 	fi
 
