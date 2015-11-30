@@ -1,13 +1,14 @@
-## SpagoBI Docker
-The idea of SpagoBI is to provide users with insights and metrics using data from different databases. Unfortunately, SpagoBI lacks of usability for the setup of the Web service and the integration of different data sets. The aim of this document is to provide a formula to create an instance of SpagoBI in a Docker container with predefined data sources and visualisations.
-We will first create Docker containers for SpagoBI and a MySQL database. After setting up the different data sources and visualisations, we will extract the relevant information from the database and integrate it into the Docker files.
-These files can then be deployed to different servers and provide the pre-configured interface.
+## SpagoBI Docker with MySQL Support
+The idea of SpagoBI is to provide users with insights and metrics using data from different databases. Unfortunately, SpagoBI lacks of usability for the setup of the Web service and the integration of different data sets. 
+The aim of this document is to create and configure an instance of SpagoBI that can be easily deployed to different servers or ran by other users.
 
-### SpagoBI 5.1 with MySQL
+We will first set up Docker containers for SpagoBI and a MySQL database to store the necessary data. After adding all the different data sources, visualisations and metrics, we will extract the relevant information from the database and integrate it into the Docker files. These files can then be deployed to different servers or ran by other users to provide the pre-configured interface.
+
+### 0. Requirements
 
 If not yet on your computer, install the [Docker Quickstart Terminal](https://docs.docker.com/).
 
-#### Check Out the FIWARE Repository
+### 1. Check Out the FIWARE Repository
 
 ```bash
 [~]$ git clone https://github.com/IAIS4EP/fiware.git
@@ -23,10 +24,10 @@ and check the folder that contains the SpagoBI Docker files.
     docker-compose.yml
     entrypoint.sh
     smoketest.sh
-    MySQL_custom_setup.sql
+    MySQL_custom_setup.sql.gz
 ```
 
-#### Build the SpagoBI Image from the Dockerfile
+### 2. Build the SpagoBI Image from the Dockerfile
 
 Open the *Docker Quickstart Terminal*, go to the folder containing the Dockerfile and it's dependencies, and run the command
 ```bash
@@ -34,7 +35,7 @@ Open the *Docker Quickstart Terminal*, go to the folder containing the Dockerfil
 [ge_spagobi]$ docker build -t $SPAGOBI_CONTAINER_NAME .
 ```
 
-#### Run a MySQL Container for the SpagoBI Data
+### 3. Run a MySQL Container for the SpagoBI Data
 
 ```bash
 [ge_spagobi]$ export MYSQL_IMAGE_NAME=spagobidb_image
@@ -46,7 +47,7 @@ Open the *Docker Quickstart Terminal*, go to the folder containing the Dockerfil
 [ge_spagobi]$ docker run --name ${MYSQL_IMAGE_NAME} -e MYSQL_USER=${MYSQL_USER} -e MYSQL_PASSWORD=${MYSQL_PASSWORD} -e MYSQL_DATABASE=${MYSQL_DATABASE} -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} -d mysql
 ```
 
-#### Run the SpagoBI Container
+### 4. Run the SpagoBI Container
 
 Mind the `-P` flag to open the ports and `--link` to connect to the MySQL container.
 
@@ -54,15 +55,18 @@ Mind the `-P` flag to open the ports and `--link` to connect to the MySQL contai
 [ge_spagobi]$ docker run --link ${MYSQL_IMAGE_NAME}:db -P ${SPAGOBI_CONTAINER_NAME}
 ```
 
-Once the Terminal shows
-	INFO: Server startup in 301864 ms
-proceed with the next steps.
+Once the Terminal shows something like this
+```
+INFO: Server startup in 301864 ms
+```
+you can proceed with the next steps.
 
-#### Get the Access Point
+### 5. Get the Access Point
+
+#### Get the IP of the Container
 
 - If you are running a Virtual Machine (on Mac OS for example)
 
-Get the IP of the VM:
 ```bash
 [ge_spagobi]$ docker-machine ls
 
@@ -70,16 +74,18 @@ NAME      ACTIVE   DRIVER       STATE     URL                         SWARM
 default   *        virtualbox   Running   tcp://THIS_IS_YOUR_IP:2376   
 ```
 
-The IP address `THIS_IS_YOUR_IP` is used to access the SpagoBI installation.
-
 - If your computer runs already on Linux
 
-Get the IP of the container:
 ```bash
 [ge_spagobi]$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' spagobi
+THIS_IS_YOUR_IP
+[ge_spagobi]$ 
 ```
 
-Get the Port of the VM:
+The IP address `THIS_IS_YOUR_IP` is used to access the SpagoBI installation.
+
+#### Get the Port of the Container
+
 ```bash
 [ge_spagobi]$ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                  NAMES
@@ -90,25 +96,23 @@ The port number `THIS_IS_YOUR_PORT` is the port to access the SpagoBI installati
 
 You can now access the running SpagoBI under the URL `THIS_IS_YOUR_IP:THIS_IS_YOUR_PORT/SpagoBI` in your Web browser.
 
-#### Configure the SpagoBI Interface
+### 6. Configure the SpagoBI Interface
 
 Start the Web browser, go to `THIS_IS_YOUR_IP:THIS_IS_YOUR_PORT/SpagoBI` and you should be provided with the SpagoBI welcome screen. Now you can log in using the Administrator account (biadmin/biadmin) and create data sources, data sets and different metrics or visualisations. For a detailed description please refer to the [Wiki](http://wiki.spagobi.org/).
 
-#### Dump the Database
+### 7. Dump the Database
+
+Once the configuration is done, we have to dump the MySQL database to extract the relevant information of the modifications. 
 
 ```bash
-[ge_spagobi]$ docker exec -i ${MYSQL_IMAGE_NAME} mysqldump ${MYSQL_DATABASE} -u${MYSQL_USER} -p${MYSQL_PASSWORD} > MySQL_custom_setup.sql
+[ge_spagobi]$ docker exec -i ${MYSQL_IMAGE_NAME} mysqldump ${MYSQL_DATABASE} -u${MYSQL_USER} -p${MYSQL_PASSWORD} | gzip  > MySQL_custom_setup.sql.gz
 ```
 
-Keep in mind that there might be sensitive data (user credentials to access MySQL databases) in the file *MySQL_custom_setup.sql*. So don't add it to a public repository or make it publicly available.
+Keep in mind that there might be sensitive data (user credentials to access MySQL databases) in the file *MySQL_custom_setup.sql.gz*. So don't add it to a public repository or make it publicly available.
 
-#### Share your interface
+### 8. Share your interface
 
-Share now your interface containing your metrics and visualizations with your customers, just by giving them your MySQL_custom_setup.sql file.
-
-
-
-
+No one can share the interface that contains all the data sources, metrics and visualizations with others by just by giving away the file *MySQL_custom_setup.sql.gz*. They can now follow the steps 0-5 in this document (ensure that  MySQL_custom_setup.sql.gz is replaced correctly) to have an out-of-the-box customised instance of SpagoBI.
 
 
 The initial files {Dockerfile, entrypoint.sh and docker-compose.yml} were taken from https://github.com/SpagoBILabs/SpagoBI/tree/master/docker/5.1-fiware-all-in-one
