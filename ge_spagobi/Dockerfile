@@ -24,7 +24,7 @@ ENV MYSQL_SCRIPT_DIRECTORY /home/MySQL
 
 WORKDIR ${MYSQL_SCRIPT_DIRECTORY}
 
-COPY ./MySQL_custom_setup.sql ./
+COPY ./MySQL_custom_setup.sql.gz ./
 
 WORKDIR ${SPAGOBI_DIRECTORY}/bin
 
