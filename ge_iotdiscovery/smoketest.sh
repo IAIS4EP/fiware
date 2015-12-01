@@ -2,6 +2,9 @@
 # remember to change $HOST variable 
 # (if you have use docker you can set localhost:8080)
 
+HOST=$1
+PORT=$2
+
 # REGISTRATION
 curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{
     "contextRegistrations": [
@@ -37,4 +40,4 @@ curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POS
 }'  http://$HOST/ngsi9/registerContext
 
 # Retrieve info from the first entity
-curl -v -H "Content-type: application/json" -X GET http://$HOST/ngsi9/contextEntities/Room1
+curl -v -H "Content-type: application/json" -X GET http://$HOST:$PORT/ngsi9/contextEntities/Room1
