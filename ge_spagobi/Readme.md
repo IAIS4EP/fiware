@@ -76,7 +76,7 @@ Mind the `-P` flag to open the ports and `--link` to connect to the MySQL contai
 
 *in case of MySQL connection error, first relaunch the mysql server as follow and repeat the running step:*
 ```bash
-mysql.server start
+[ge_spagobi]$ mysql.server start
 ```
 
 Once the Terminal shows something like this
