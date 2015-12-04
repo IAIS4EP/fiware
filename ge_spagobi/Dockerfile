@@ -21,6 +21,11 @@ RUN wget "${SPAGOBI_MYSQL_SCRIPT_URL}" -O MySQL.zip && \
 
 ENV SPAGOBI_DIRECTORY /home/SpagoBI
 ENV MYSQL_SCRIPT_DIRECTORY /home/MySQL
+
+WORKDIR ${MYSQL_SCRIPT_DIRECTORY}
+
+COPY ./MySQL_custom_setup.sql.gz ./
+
 WORKDIR ${SPAGOBI_DIRECTORY}/bin
 
 #make the script executable by bash (not only sh) and
