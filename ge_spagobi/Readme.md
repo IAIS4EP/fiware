@@ -62,7 +62,6 @@ Then import the database and her tables in the MySQL docker container
 docker exec -i ${MYSQL_DB_NAME} mysql -uroot -proot < external_db/MYSQL_external_db_dump.sql
 ```
 
-*infos*:
 The MySQL IP address to use when you will create a datasource in SpagoBI is the IP address of the virtual machine, which can be obtained as described in step 6.
 The port to use is 3306.
 
