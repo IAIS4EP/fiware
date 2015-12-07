@@ -17,7 +17,7 @@ If not yet on your computer, install the [Docker Quickstart Terminal](https://do
 and check the folder that contains the SpagoBI Docker files.
 
 ```bash
-[~]$ cd fiware/ge_spaogbi
+[~]$ cd fiware/ge_spagobi
 [ge_spagobi]$ ls -la
     Dockerfile
     Readme.md
