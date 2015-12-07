@@ -37,7 +37,7 @@ curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POS
         }
     ],
     "duration": "P1M"
-}'  http://$HOST/ngsi9/registerContext
+}'  http://$HOST:$PORT/ngsi9/registerContext
 
 # Retrieve info from the first entity
 curl -v -H "Content-type: application/json" -X GET http://$HOST:$PORT/ngsi9/contextEntities/Room1
