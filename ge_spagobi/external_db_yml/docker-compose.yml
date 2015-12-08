@@ -1,0 +1,12 @@
+data:
+  build: docker/data/.
+mysql:
+  image: mysql
+  ports:
+    - "3307:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+  volumes:
+    - ./docker/data:./docker-entrypoint-initdb.d
+  volumes_from:
+    - data
