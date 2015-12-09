@@ -81,7 +81,7 @@ INFO: Server startup in 301864 ms
 ```
 you can proceed with the next steps.
 
-*In the case you created an external MySQL datasource*  
+##### In the case you created an external MySQL datasource
 To use it, you need to link it also to your container. Know first the name of your external database :
 
 ```bash
