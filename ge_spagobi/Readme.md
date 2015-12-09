@@ -25,6 +25,12 @@ and check the folder that contains the SpagoBI Docker files.
     entrypoint.sh
     smoketest.sh
     MySQL_custom_setup.sql.gz
+    external_db
+        docker-compose.yml
+        docker
+            data
+                Dockerfile
+                MySQL_external_db_dump.sql
 ```
 
 ### 2. Build the SpagoBI Image from the Dockerfile
@@ -50,33 +56,34 @@ Open the *Docker Quickstart Terminal*, go to the folder containing the Dockerfil
 ### 4. Run a MySQL Container
 
 This container will contain a MySQL populated database and tables you can then use in SpagoBI as a datasource.
+To run the MySQL container, travel until the external_db directory and launch the following command :
 
-First run the container:
 ```bash
-[ge_spagobi]$ export MYSQL_DB_NAME=mysql_database
-[ge_spagobi]$ docker run --name ${MYSQL_DB_NAME} -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
+[external_db]$ docker-compose up
 ```
 
-Then import the database and her tables in the MySQL docker container
-```bash
-docker exec -i ${MYSQL_DB_NAME} mysql -uroot -proot < external_db/MYSQL_external_db_dump.sql
-```
-
-The MySQL IP address to use when you will create a datasource in SpagoBI is the IP address of the virtual machine, which can be obtained as described in step 6.
-The port to use is 3306.
-
+Informations you may need to access this external database:
+- The port is 3306
+- The IP address is the virtual machine one. To obtain it please refer to the step 6.
+- The user and password you can use are both "root" and "root".
 
 ### 5. Run the SpagoBI Container linked to the two databases
 
 Mind the `-P` flag to open the ports and `--link` to connect to the MySQL containers.
 
+Know first the name of your external database give by docker-compose :
+
 ```bash
-[ge_spagobi]$ docker run --link ${MYSQL_IMAGE_NAME}:db --link ${MYSQL_DB_NAME}:external_db -P ${SPAGOBI_CONTAINER_NAME}
+[external_db]$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
+a799de7a1474        mysql               "/entrypoint.sh mysql"   About a minute ago   Up 10 seconds       0.0.0.0:3307->3306/tcp   externaldb_mysql_1
 ```
 
-*in case of MySQL connection error, first relaunch the mysql server as follow and repeat the running step:*
+Your first external MySQL database is named "externaldb_mysql_1". You can now use this name to link her to your SpagoBI container.
+You can now go back to your ge_spagobi folder to run the SpagoBI container.
+
 ```bash
-[ge_spagobi]$ mysql.server start
+[ge_spagobi]$ docker run --link ${MYSQL_IMAGE_NAME}:db --link externaldb_mysql_1:external_db -P ${SPAGOBI_CONTAINER_NAME}
 ```
 
 Once the Terminal shows something like this
