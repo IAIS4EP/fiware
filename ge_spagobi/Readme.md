@@ -5,7 +5,7 @@ The aim of this document is to create and configure an instance of SpagoBI that 
 We will first set up Docker containers for SpagoBI (`spagobi_container`) and a MySQL database (`spagobidb_container`) to store the necessary data. After adding all the different data sources, visualizations and metrics, we will extract the relevant information from the database and integrate it into the Docker files. These files can then be deployed to different servers or ran by other users to provide the pre-configured interface.
 
 <div style="text-align:center; background-color:lightgrey; color:#666666; margin:5px;">
-<img src ="https://cloud.githubusercontent.com/assets/14290681/11777417/c4297330-a24e-11e5-80b9-3c8a2924f200.png"/>
+<img src ="images/containers_interactions.png"/>
 <p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px;">Containers connections and interactions</p>
 </div>
 
