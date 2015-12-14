@@ -4,6 +4,20 @@ The aim of this document is to create and configure an instance of SpagoBI that 
 
 We will first set up Docker containers for SpagoBI and a MySQL database to store the necessary data. After adding all the different data sources, visualizations and metrics, we will extract the relevant information from the database and integrate it into the Docker files. These files can then be deployed to different servers or ran by other users to provide the pre-configured interface.
 
+![spagobi_containers](https://cloud.githubusercontent.com/assets/14290681/11777417/c4297330-a24e-11e5-80b9-3c8a2924f200.png "Containers Interactions")
+
+Before beginning with the first step, and in order to have some data and charts already stored in your future SpagoBI instance, travel to the external_db folder, and simply run this command :
+
+```bash
+[external_db]$ docker-compose up
+```
+
+This creates a container that you can then use as a datasource in SpagoBI.
+As creating a datasource in SpagoBI requires some informations, please take note of the followings :
+- This container port is 3306
+- The IP address is the virtual machine one. To obtain it please refer to the step 5.
+- The user and password you can use are both "root" and "root".
+
 ### 0. Requirements
 
 If not yet on your computer, install the [Docker Quickstart Terminal](https://docs.docker.com/).
@@ -39,32 +53,16 @@ Open the *Docker Quickstart Terminal*, go to the folder containing the Dockerfil
 [ge_spagobi]$ docker build -t $SPAGOBI_CONTAINER_NAME .
 ```
 
-##### Use a MySQL container as datasource
-
-In case you would like to have an already populated MySQL database accessible from SpagoBI, we provide you the files to build a MySQL container usable as a datasource in the SpagoBI instance you just created.
-
-You need first to travel to the external_db folder, and run the following command from there.
-
-```bash
-[external_db]$ docker-compose up
-```
-
-Informations you may need to add this container as a datasource in SpagoBI:
-- The MySQL container port is 3306
-- The IP address is the virtual machine one. To obtain it please refer to the step 5.
-- The user and password you can use are both "root" and "root".
-
-
 ### 3. Run a MySQL Container for the SpagoBI Data
 
 ```bash
-[ge_spagobi]$ export MYSQL_IMAGE_NAME=spagobidb_image
+[ge_spagobi]$ export MYSQL_CONTAINER_NAME=spagobidb_container
 [ge_spagobi]$ export MYSQL_USER=spagobi_user
 [ge_spagobi]$ export MYSQL_PASSWORD=spagobi_password
 [ge_spagobi]$ export MYSQL_DATABASE=spagobi_db
 [ge_spagobi]$ export MYSQL_ROOT_PASSWORD=spagobi_root_password
 
-[ge_spagobi]$ docker run --name ${MYSQL_IMAGE_NAME} -e MYSQL_USER=${MYSQL_USER} -e MYSQL_PASSWORD=${MYSQL_PASSWORD} -e MYSQL_DATABASE=${MYSQL_DATABASE} -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} -d mysql
+[ge_spagobi]$ docker run --name ${MYSQL_CONTAINER_NAME} -e MYSQL_USER=${MYSQL_USER} -e MYSQL_PASSWORD=${MYSQL_PASSWORD} -e MYSQL_DATABASE=${MYSQL_DATABASE} -e MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} -d mysql
 ```
 
 ### 4. Run the SpagoBI Container
@@ -72,7 +70,7 @@ Informations you may need to add this container as a datasource in SpagoBI:
 Mind the `-P` flag to open the ports and `--link` to connect to the MySQL containers.
 
 ```bash
-[ge_spagobi]$ docker run --link ${MYSQL_IMAGE_NAME}:db -P ${SPAGOBI_CONTAINER_NAME}
+[ge_spagobi]$ docker run --link ${MYSQL_CONTAINER_NAME}:db -P ${SPAGOBI_CONTAINER_NAME}
 ```
 
 Once the Terminal shows something like this
@@ -80,22 +78,6 @@ Once the Terminal shows something like this
 INFO: Server startup in 301864 ms
 ```
 you can proceed with the next steps.
-
-##### In the case you created an external MySQL datasource
-To use it, you need to link it also to your container. Know first the name of your external database :
-
-```bash
-[external_db]$ docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                    NAMES
-a799de7a1474        mysql               "/entrypoint.sh mysql"   About a minute ago   Up 10 seconds       0.0.0.0:3307->3306/tcp   externaldb_mysql_1
-```
-
-Your first external MySQL database is named `externaldb_mysql_1`. You can now use this name to link her to your SpagoBI container.
-You can now go back to your ge_spagobi folder to run the last command but modified to link it to the future MySQL datasource and wait for the server startup.
-
-```bash
-[ge_spagobi]$ docker run --link ${MYSQL_IMAGE_NAME}:db --link externaldb_mysql_1:external_db -P ${SPAGOBI_CONTAINER_NAME}
-```
 
 ### 5. Get the Access Point
 
@@ -141,7 +123,7 @@ Start the Web browser, go to `THIS_IS_YOUR_IP:THIS_IS_YOUR_PORT/SpagoBI` and you
 Once the configuration is done, we have to dump the MySQL database to extract the relevant information of the modifications.
 
 ```bash
-[ge_spagobi]$ docker exec -i ${MYSQL_IMAGE_NAME} mysqldump ${MYSQL_DATABASE} -u${MYSQL_USER} -p${MYSQL_PASSWORD} | gzip  > MySQL_custom_setup.sql.gz
+[ge_spagobi]$ docker exec -i ${MYSQL_CONTAINER_NAME} mysqldump ${MYSQL_DATABASE} -u${MYSQL_USER} -p${MYSQL_PASSWORD} | gzip  > MySQL_custom_setup.sql.gz
 ```
 
 Keep in mind that there might be sensitive data (user credentials to access MySQL databases) in the file *MySQL_custom_setup.sql.gz*. So don't add it to a public repository or make it publicly available.
