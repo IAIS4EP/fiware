@@ -2,9 +2,12 @@
 The idea of SpagoBI is to provide users with insights and metrics using data from different databases. Unfortunately, SpagoBI lacks of usability for the setup of the Web service and the integration of different data sets.
 The aim of this document is to create and configure an instance of SpagoBI that can be easily deployed to different servers or ran by other users.
 
-We will first set up Docker containers for SpagoBI and a MySQL database to store the necessary data. After adding all the different data sources, visualizations and metrics, we will extract the relevant information from the database and integrate it into the Docker files. These files can then be deployed to different servers or ran by other users to provide the pre-configured interface.
+We will first set up Docker containers for SpagoBI (`spagobi_container`) and a MySQL database (`spagobidb_container`) to store the necessary data. After adding all the different data sources, visualizations and metrics, we will extract the relevant information from the database and integrate it into the Docker files. These files can then be deployed to different servers or ran by other users to provide the pre-configured interface.
 
+<div style="text-align:center; background-color:lightgrey; color:#666666; margin:5px;">
 ![spagobi_containers](https://cloud.githubusercontent.com/assets/14290681/11777417/c4297330-a24e-11e5-80b9-3c8a2924f200.png "Containers Interactions")
+<p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px;">Containers connections and interactions</p>
+</div>
 
 Before beginning with the first step, and in order to have some data and charts already stored in your future SpagoBI instance, travel to the external_db folder, and simply run this command :
 
@@ -12,7 +15,7 @@ Before beginning with the first step, and in order to have some data and charts 
 [external_db]$ docker-compose up
 ```
 
-This creates a container that you can then use as a datasource in SpagoBI.
+This creates a container (`datasource`) that you can then use as a datasource in SpagoBI.
 As creating a datasource in SpagoBI requires some informations, please take note of the followings :
 - This container port is 3306
 - The IP address is the virtual machine one. To obtain it please refer to the step 5.
