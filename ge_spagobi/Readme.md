@@ -9,18 +9,6 @@ We will first set up Docker containers for SpagoBI (`spagobi_container`) and a M
 <p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px;">Containers connections and interactions</p>
 </div>
 
-Before beginning with the first step, and in order to have some data and charts already stored in your future SpagoBI instance, travel to the external_db folder, and simply run this command :
-
-```bash
-[external_db]$ docker-compose up
-```
-
-This creates a container (`datasource`) that you can then use as a datasource in SpagoBI.
-As creating a datasource in SpagoBI requires some informations, please take note of the followings :
-- This container port is 3306
-- The IP address is the virtual machine one. To obtain it please refer to the step 5.
-- The user and password you can use are both "root" and "root".
-
 ### 0. Requirements
 
 If not yet on your computer, install the [Docker Quickstart Terminal](https://docs.docker.com/).
@@ -48,12 +36,25 @@ and check the folder that contains the SpagoBI Docker files.
         MySQL_external_db_dump.sql
 ```
 
+Before beginning with the second step, and in order to have some data and charts already stored in your future SpagoBI instance, travel to the external_db folder, and simply run this command :
+
+```bash
+[external_db]$ docker-compose up
+```
+
+This creates a container (`datasource`) that you can then use as a datasource in SpagoBI.
+As creating a datasource in SpagoBI requires some informations, please take note of the followings :
+- This container port is 3306
+- The IP address is the virtual machine one. To obtain it please refer to the step 5.
+- The user and password you can use are both "root" and "root".
+
+
 ### 2. Build the SpagoBI Image from the Dockerfile
 
 Open the *Docker Quickstart Terminal*, go to the folder containing the Dockerfile and it's dependencies, and run the command
 ```bash
-[ge_spagobi]$ export SPAGOBI_CONTAINER_NAME=spagobi_container
-[ge_spagobi]$ docker build -t $SPAGOBI_CONTAINER_NAME .
+[ge_spagobi]$ export SPAGOBI_IMAGE_NAME=spagobi_image
+[ge_spagobi]$ docker build -t $SPAGOBI_IMAGE_NAME .
 ```
 
 ### 3. Run a MySQL Container for the SpagoBI Data
@@ -70,10 +71,11 @@ Open the *Docker Quickstart Terminal*, go to the folder containing the Dockerfil
 
 ### 4. Run the SpagoBI Container
 
-Mind the `-P` flag to open the ports and `--link` to connect to the MySQL containers.
+Mind the `-P` flag to open the ports and `--link` to connect to the MySQL containers (`spagobidb_container`).
 
 ```bash
-[ge_spagobi]$ docker run --link ${MYSQL_CONTAINER_NAME}:db -P ${SPAGOBI_CONTAINER_NAME}
+[ge_spagobi]$ export SPAGOBI_CONTAINER_NAME=spagobi_container
+[ge_spagobi]$ docker run --name ${SPAGOBI_COz} --link ${MYSQL_CONTAINER_NAME}:db -P ${SPAGOBI_IMAGE_NAME}
 ```
 
 Once the Terminal shows something like this
