@@ -43,20 +43,9 @@ if [ -n "$DB_ENV_MYSQL_DATABASE" ]; then
 		mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USER} -p${DB_PASS} ${DB_DB} --execute="source $MYSQL_SCRIPT_DIRECTORY/MySQL_create_quartz_schema.sql"
 		if [ -s "${MYSQL_SCRIPT_DIRECTORY}/MySQL_custom_setup.sql.gz" ]
 		then
-			# Get container id
-			container=($(docker ps | awk '{ print $1 }'))
-			container_id=${container[1]}
-
-			# Get IP depending on the OS : IP of the VM on Mac OS, IP of the container on others
-			if [[ `uname` == 'Darwin'* ]]; then
-				IP=$(docker-machine ip $(docker-machine active))
-			else
-				IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' ${container_id})
-			fi
-
-			old_delegate='MY_IP_ADDRESS'
-			new_delegate=${IP}
-			gzip -cd ${MYSQL_SCRIPT_DIRECTORY}/MySQL_custom_setup.sql.gz | sed -i "s|${old_delegate}|${new_delegate}|" | gzip > ${MYSQL_SCRIPT_DIRECTORY}/MySQL_custom_setup.sql.gz
+			old_delegate='192.168.99.100'
+			new_delegate=$VM_IP
+			gunzip -c ${MYSQL_SCRIPT_DIRECTORY}/MySQL_custom_setup.sql.gz | sed -i "s|${old_delegate}|${new_delegate}|" | gzip > ${MYSQL_SCRIPT_DIRECTORY}/MySQL_custom_setup.sql.gz
 			gunzip -c ${MYSQL_SCRIPT_DIRECTORY}/MySQL_custom_setup.sql.gz | mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USER} -p${DB_PASS} ${DB_DB}
 		fi
 	fi

@@ -7,6 +7,10 @@ ENV SPAGOBI_MYSQL_SCRIPT_URL=https://github.com/SpagoBILabs/SpagoBI/releases/dow
 
 RUN apt-get update && apt-get install -y wget coreutils unzip mysql-client
 
+ENV VM_IP docker-machine ip default
+
+RUN echo $VM_IP
+
 #download spagobi all in one and extract it
 WORKDIR /home
 RUN wget "${SPAGOBI_URL}" -O SpagoBI.zip && \
