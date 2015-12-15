@@ -73,9 +73,9 @@ Open the *Docker Quickstart Terminal*, go to the folder containing the Dockerfil
 
 Mind the `-P` flag to open the ports and `--link` to connect to the MySQL container (`spagobidb_container`).
 
-NB:  
-To link the MySQL container, we use the IP address of the Virtual Machine in the MySQL_custom_setup.sql.gz file. For this, we use the default IP address of the Docker Virtual Machine. However, if the Virtual Machine configuration has been changed (use the `dev` Virtual Machine instead of `default` one for example), this address is no more valid and you need to change it in the MySQL_custom_setup.sql.gz for your Virtual Machine address.
-To see how to get your Virtual Machine address, please refer to the step 5. 
+*<u>NB</u>*  
+*To link the MySQL container, we use the IP address of the Virtual Machine in the MySQL_custom_setup.sql.gz file. For this, we use the default IP address of the Docker Virtual Machine. However, if the Virtual Machine configuration has been changed (use the `dev` Virtual Machine instead of `default` one for example), this address is no more valid and you need to change it in the MySQL_custom_setup.sql.gz for your Virtual Machine address.  
+To see how to get your Virtual Machine address, please refer to the step 5.*
 
 ```bash
 [ge_spagobi]$ export SPAGOBI_CONTAINER_NAME=spagobi_container
