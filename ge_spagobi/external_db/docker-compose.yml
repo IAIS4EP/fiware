@@ -7,6 +7,6 @@ mysql:
   environment:
     MYSQL_ROOT_PASSWORD: root
   volumes:
-    - ./docker-entrypoint-initdb.d
+    - ./:/docker-entrypoint-initdb.d
   volumes_from:
     - data
