@@ -3,8 +3,10 @@
 set -e
 
 # Remove old containers
-echo $(docker rm -f $(docker ps -a -q))
-
+echo $(docker ps -a --no-trunc -q)
+if ! [ -z $(docker ps -a --no-trunc -q) ]; then
+	echo $(docker rm -f $(docker ps -a -q))
+fi
 
 # Build images and run containers
 echo
