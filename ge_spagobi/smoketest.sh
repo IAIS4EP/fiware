@@ -3,7 +3,7 @@
 set -e
 
 # Get container id
-spago_container_id=$(docker inspect --format="{{.Id}}" spagobi_container)
+spago_container_id=$(docker inspect --format="{{.Id}}" ge_spagobi)
 
 # Get IP depending on the OS : IP of the VM on Mac OS, IP of the container on others
 if [[ `uname` == 'Darwin'* ]]; then
