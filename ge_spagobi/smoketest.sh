@@ -5,6 +5,7 @@ set -e
 # Remove old containers
 echo $(docker rm -f $(docker ps -a -q))
 
+
 # Build images and run containers
 echo
 echo Build images
@@ -16,7 +17,6 @@ echo Building SpagoBI image
 
 
 echo $(docker run --name mysqldb_container -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DATABASE=mysql_db -e MYSQL_ROOT_PASSWORD=root -d mysql) &
-wait
 echo MySQL container run
 
 echo
@@ -37,17 +37,17 @@ echo SpagoBI container run
 cd external_db 
 echo
 echo $(docker-compose up) &
-wait
+
 echo
 echo Running docker-compose
+wait
 
+echo
 echo MySQL datasource run
 
-
 # Get container id
-container=($(docker ps | awk '{ print $1 }'))
-container_id=${container[1]}
-
+spago_container_id=$(docker inspect --format="{{.Id}}" spago_container)
+echo $spago_container_id
 
 # Get IP depending on the OS : IP of the VM on Mac OS, IP of the container on others
 if [[ `uname` == 'Darwin'* ]]; then
