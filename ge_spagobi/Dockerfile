@@ -7,6 +7,10 @@ ENV SPAGOBI_MYSQL_SCRIPT_URL=https://github.com/SpagoBILabs/SpagoBI/releases/dow
 
 RUN apt-get update && apt-get install -y wget coreutils unzip mysql-client
 
+ENV VM_IP docker-machine ip default
+
+RUN echo $VM_IP
+
 #download spagobi all in one and extract it
 WORKDIR /home
 RUN wget "${SPAGOBI_URL}" -O SpagoBI.zip && \
@@ -21,6 +25,11 @@ RUN wget "${SPAGOBI_MYSQL_SCRIPT_URL}" -O MySQL.zip && \
 
 ENV SPAGOBI_DIRECTORY /home/SpagoBI
 ENV MYSQL_SCRIPT_DIRECTORY /home/MySQL
+
+WORKDIR ${MYSQL_SCRIPT_DIRECTORY}
+
+COPY ./MySQL_custom_setup.sql.gz ./
+
 WORKDIR ${SPAGOBI_DIRECTORY}/bin
 
 #make the script executable by bash (not only sh) and
