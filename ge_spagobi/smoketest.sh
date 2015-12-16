@@ -2,54 +2,8 @@
 
 set -e
 
-# Remove old containers
-echo $(docker ps -a --no-trunc -q)
-if ! [ -z $(docker ps -a --no-trunc -q) ]; then
-	echo $(docker rm -f $(docker ps -a -q))
-fi
-
-# Build images and run containers
-echo
-echo Build images
-
-echo $(docker build -t spago_image .) &
-wait
-echo
-echo Building SpagoBI image
-
-
-echo $(docker run --name mysqldb_container -e MYSQL_USER=root -e MYSQL_PASSWORD=root -e MYSQL_DATABASE=mysql_db -e MYSQL_ROOT_PASSWORD=root -d mysql) &
-echo MySQL container run
-
-echo
-
-echo $(mysql.server start)
-
-echo
-echo SpagoBI image built
-
-sleep 2 && echo $(docker run --name spago_container -e DB_PORT_3306_TCP_ADDR=localhost --link mysqldb_container -P spago_image) &
-wait
-echo
-echo Running SpagoBI container
-
-echo
-echo SpagoBI container run
-
-cd external_db 
-echo
-echo $(docker-compose up) &
-
-echo
-echo Running docker-compose
-wait
-
-echo
-echo MySQL datasource run
-
 # Get container id
-spago_container_id=$(docker inspect --format="{{.Id}}" spago_container)
-echo $spago_container_id
+spago_container_id=$(docker inspect --format="{{.Id}}" spagobi_container)
 
 # Get IP depending on the OS : IP of the VM on Mac OS, IP of the container on others
 if [[ `uname` == 'Darwin'* ]]; then
@@ -59,7 +13,7 @@ else
 fi
 
 #Get port
-port_container=$(docker port $container_id)
+port_container=$(docker port $spago_container_id)
 
 IFS=':' read -a array <<< "$port_container"
 port=$(echo ${array[1]})
