@@ -3,8 +3,7 @@
 set -e
 
 # Get container id
-container=($(docker ps | awk '{ print $1 }'))
-container_id=${container[1]}
+spago_container_id=$(docker inspect --format="{{.Id}}" spagobi_container)
 
 # Get IP depending on the OS : IP of the VM on Mac OS, IP of the container on others
 if [[ `uname` == 'Darwin'* ]]; then
@@ -14,7 +13,7 @@ else
 fi
 
 #Get port
-port_container=$(docker port $container_id)
+port_container=$(docker port $spago_container_id)
 
 IFS=':' read -a array <<< "$port_container"
 port=$(echo ${array[1]})
@@ -23,10 +22,10 @@ address=$(echo $IP:$port)
 echo "Docker-machine test"
 # make sure the virtual machine is on
 if [[ -z $IP ]]; then
-	echo "Docker container not running\n"
+	echo "Docker machine not running\n"
 	exit 1
 else
-	echo "Docker container found at IP $IP\n"
+	echo "Docker machine found at IP $IP\n"
 fi
 
 echo "Port test"
