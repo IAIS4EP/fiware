@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 FROM ubuntu:latest
 
 MAINTAINER Dan Pupius <dan@pupi.us>
@@ -33,3 +34,6 @@ ADD config/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
 # By default, simply start apache.
 CMD /usr/sbin/apache2ctl -D FOREGROUND
+=======
+FROM l3iggs/lamp # do not forget to make acceptance test to verify that this environment suits your neeeds! 
+>>>>>>> IAIS4EP/master
