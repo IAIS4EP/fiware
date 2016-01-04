@@ -20,7 +20,7 @@ $clientSecret = "c3b17f7cb87e4ac78204b4fc5fc4f379";
 /**
  * The redirect URI
  */
-$redirectUri = "http://localhost/~asafnevo/keyrock/callback/callback.php";
+$redirectUri = "http://192.168.99.100:8080/callback/callback.php";
 
 /**
  * The Instagram url for replacing the code
