@@ -3,13 +3,19 @@
 set -e
 
 # Get container id
-spago_container_id=$(docker inspect --format="{{.Id}}" spagobi_container)
+spago_containers_id=$(docker ps  --filter="name=spago" -q)
+
+spago_containers_id_array=($spago_containers_id)
+
+spago_container_id=${spago_containers_id_array[0]}
+echo SpagoBI container ID : $spago_container_id
+echo
 
 # Get IP depending on the OS : IP of the VM on Mac OS, IP of the container on others
 if [[ `uname` == 'Darwin'* ]]; then
 	IP=$(docker-machine ip $(docker-machine active))
 else
-	IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' ${container_id})
+	IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' ${spago_container_id})
 fi
 
 #Get port
@@ -20,6 +26,7 @@ port=$(echo ${array[1]})
 address=$(echo $IP:$port)
 
 echo "Docker-machine test"
+echo
 # make sure the virtual machine is on
 if [[ -z $IP ]]; then
 	echo "Docker machine not running\n"
@@ -29,6 +36,7 @@ else
 fi
 
 echo "Port test"
+echo
 if [[ -z $port ]]; then
 	echo "Container's ports not open to the local machine"
 	exit 1
