@@ -41,10 +41,11 @@ if [[ -z $port ]]; then
 	echo "Container's ports not open to the local machine"
 	exit 1
 else
-	echo "Open port found at $port_container\n"
+	echo "Open port found at $port\n"
 fi
 
 echo "Homepage test"
+echo "Trying to reach $address/SpagoBI ... "
 status=$(curl -s --head -w %{http_code} $address/SpagoBI -o /dev/null)
 
 if [[ "$status" > '390' ]]; then
