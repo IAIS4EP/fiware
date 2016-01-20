@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# USAGE:
+#./smoketest.sh 195.220.224.14 49154
+
 HOST=$1
 PORT=$2
 ROOT_URL_NO_SLASH="http://$HOST:$PORT"
