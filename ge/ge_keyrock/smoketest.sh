@@ -7,4 +7,4 @@ curl -s --request POST \
 --header "Accept: application/xml" \
 --header "Content-Type: application/xml;charset=UTF-8" \
 --data '<?xml version="1.0" encoding="UTF-8"?><taz:properties xmlns:taz="http://thalesgroup.com/authz/model/3.0/resource"><name>MyDomain</name><description>This is my domain.</description></taz:properties>' \
- http://54.76.7.199:32768/authzforce/domains
+ http://52.49.248.48:32768/authzforce/domains
