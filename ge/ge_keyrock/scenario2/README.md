@@ -13,7 +13,7 @@ Ubuntu 12.10
 Apache 2.2.2
 MySql 5.5.29
 PHP 5.4.6
-Needs Framework : CodeIgniter 
+PHP application framework : CodeIgniter VERSION? 
 
 ```
 
