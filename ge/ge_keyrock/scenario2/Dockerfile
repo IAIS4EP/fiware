@@ -1,17 +1,21 @@
-# along the lines of tapsboy/docker-codeigniter for Code Igniter 2.3.0
+# along the lines of tapsboy/docker-codeigniter for Code Igniter 2.1.3
 FROM centurylink/apache-php:latest
 
-RUN apt-get update && \
- DEBIAN_FRONTEND=noninteractive apt-get -y upgrade && \
- DEBIAN_FRONTEND=noninteractive apt-get -y install supervisor pwgen && \
- apt-get -y install mysql-client unzip wget 
+RUN export igniter_version=2.1.3
+RUN echo "setting framework version to: $igniter_version"
+
+#RUN apt-get update && \
+# DEBIAN_FRONTEND=noninteractive apt-get -y upgrade && \
+# DEBIAN_FRONTEND=noninteractive apt-get -y install supervisor pwgen && \
+
+RUN apt-get -y update 
+RUN apt-get -y install mysql-client unzip wget 
  
  
 WORKDIR /tmp 
-RUN wget https://github.com/bcit-ci/CodeIgniter/archive/2.2.6.zip 
+RUN wget https://github.com/bcit-ci/CodeIgniter/archive/2.1.3.zip
 
-RUN mkdir /app
-RUN unzip 2.2.6.zip && mv 2.2.6 /var/www/app
+RUN unzip 2.1.3.zip && mv CodeIgniter-2.1.3 /app
 
 WORKDIR /app
 
