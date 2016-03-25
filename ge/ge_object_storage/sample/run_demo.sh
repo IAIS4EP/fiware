@@ -9,4 +9,4 @@ docker rm -f swift-demo
 docker run --name=swift-demo -d -p $HTTP_PORT:80  fiware/ge_object_storage_demo:latest
 
 # for troubleshooting run container shell:
-#docker exec -it ge_os_test bash
+#docker exec -it swift-demo
