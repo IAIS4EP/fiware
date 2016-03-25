@@ -1,5 +1,6 @@
 # this script is a small helper for the test app environment to build Docker image and run container
 
+
 HTTP_PORT=${1:-80}
 export CKAN_PORT
 
