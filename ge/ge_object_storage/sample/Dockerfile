@@ -1,5 +1,6 @@
 FROM tutum/lamp:latest
 ADD ./fiwareImageStorage.php /app 
-RUN mv /app/fiwareImageStorage.php /app/index.php
+RUN apt-get -y install php5-curl
+RUN apache2ctl restart
 EXPOSE 80 
 CMD ["/run.sh"]
