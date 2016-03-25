@@ -3,6 +3,13 @@ Object storage
 
 This demo was tested on a clean Ubuntu 15.04.
 
+# EASY INSTALLATION
+
+Simply download this repo and run `./easy_install.sh`
+
+
+# MANUAL INSTALLATION
+
 To start with make sure you have the required dependencies installed:
 
 ```
