@@ -96,8 +96,9 @@ The PHP code contains place holders (which you need to fill) for the actual Obje
 smoketest.sh
 ------------
 The smoketest.sh gives a simple way to test basic API functionality.
+```
 > docker run -v /srv --name SWIFT_DATA busybox
 > docker run -d -p 8080:8080 --name=swiftfun -e SWIFT_DEFAULT_CONTAINER=container_name --volumes-from SWIFT_DATA -t morrisjobke/docker-swift-onlyone
 > ./smoketest.sh localhost 8080
-
+```
 The script must exit with exit code 0 and produce a result test file retrieved_demo.sh
