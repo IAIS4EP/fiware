@@ -91,3 +91,13 @@ The PHP code contains place holders (which you need to fill) for the actual Obje
 <b>CONTAINER NAME</b>&nbsp;//container name for storing images. e.g. "images"<br>
 <b>USER NAME</b>&nbsp;//user name of existing object storage account. e.g. "test:tester"<br>
 <b>USER KEY</b>&nbsp;//user secret key of existing object storage account. e.g. "testing"<br>
+
+
+smoketest.sh
+------------
+The smoketest.sh gives a simple way to test basic API functionality.
+> docker run -v /srv --name SWIFT_DATA busybox
+> docker run -d -p 8080:8080 --name=swiftfun -e SWIFT_DEFAULT_CONTAINER=container_name --volumes-from SWIFT_DATA -t morrisjobke/docker-swift-onlyone
+> ./smoketest.sh localhost 8080
+
+The script must exit with exit code 0 and produce a result test file retrieved_demo.sh
