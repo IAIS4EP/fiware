@@ -67,8 +67,4 @@ else
 	echo
 fi
 
-ckan_user=$(python create_user.py $IP)
-echo "$ckan_user"
-
-
 echo "Smoketests OK."
