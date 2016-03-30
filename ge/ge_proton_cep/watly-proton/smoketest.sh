@@ -1,1 +1,1 @@
-
+curl -X POST -H "Content-Type: application/json" -H "Cache-Control: no-cache" -d '{"Name":"RfidDetected","Type":"Text","Uri":null,"Title":"31bc572a"}' "http://192.168.99.100:8080/ProtonOnWebServer/rest/events"
