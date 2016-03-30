@@ -8,3 +8,9 @@ The **watly-cep-definition.json** file contains the definition of the proton ins
 The project **watly-server** holds a rest web service which tracks the events incoming from the CEP into a log file specifies by *watly.properties*.
 
 For a quick test you may wish to use the [docker](https://hub.docker.com/r/adeprato/watly-cep/), based on a apache-tomcat instance which contains the proton and watly-server applications.
+
+´´´
+> docker run -d -p CUSTOM_PORT:8080 --name=watly-cep adeprato/watly-cep /usr/local/tomcat/bin/catalina.sh run
+> ./smoketest.sh DOCKER_HOST CUSTOM_PORT
+
+´´´
