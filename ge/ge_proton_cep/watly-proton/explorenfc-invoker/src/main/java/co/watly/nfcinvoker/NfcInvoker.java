@@ -59,7 +59,6 @@ public class NfcInvoker {
 	
 				postData(destUrl, type, title, uri);
 	
-				out.close();
 				in.close();
 			} catch(Exception e) {
 				e.printStackTrace();
