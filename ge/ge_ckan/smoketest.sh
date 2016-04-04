@@ -38,7 +38,9 @@ else
 fi
 
 echo "Homepage test"
+echo "adress : $address"
 status=$(curl -s --head -w %{http_code} $address -o /dev/null)
+
 
 if [[ "$status" > '390' ]]; then
 	echo "Homepage not reached. Status : $status"
@@ -46,9 +48,6 @@ if [[ "$status" > '390' ]]; then
 else
 	echo "Homepage found with status : $status\n"
 fi
-
-# get ckanapi if not
-pip install ckanapi
 
 # move to the python files folder
 cd api_interact
