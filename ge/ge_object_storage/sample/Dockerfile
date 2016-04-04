@@ -3,6 +3,7 @@ ADD ./fiwareImageStorage.php /app/fiwareImageStorage.php
 RUN rm /app/index.php
 
 # Install Apache and PHP5
+RUN apt-get update -y
 RUN apt-get install apache2 -y
 RUN apt-get install php5 -y libapache2-mod-php5 -y
 RUN apt-get install php5-curl -y php5-gd -y php5-intl -y php-pear -y php5-imagick -y php5-imap -y php5-mcrypt -y php5-memcache -y php5-ming -y php5-ps -y php5-pspell -y php5-recode -y php5-tidy -y php5-xmlrpc -y php5-xsl -y php5-mysql -y php5-xcache -y
