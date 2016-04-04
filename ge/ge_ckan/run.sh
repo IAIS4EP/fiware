@@ -26,4 +26,23 @@ echo
 
 docker run -d -p 80:80 --link ${POSTGRESQL_CONTAINER}:db --link ${SOLR_CONTAINER}:solr --name ${CKAN_CONTAINER} ${CKAN_IMAGE}
 
+# case in which we build CKAN before postgresql is fully ready : before result != 0
+result=$(docker inspect --format '{{ .State.ExitCode }}' ${POSTGRESQL_CONTAINER})
+running=0
+
+while [ $result -ne 0 -a $running -ne 1 ]; do
+	sleep 5
+	docker rm -f ${CKAN_CONTAINER}
+	docker run -d -p 80:80 --link ${POSTGRESQL_CONTAINER}:db --link ${SOLR_CONTAINER}:solr --name ${CKAN_CONTAINER} ${CKAN_IMAGE}
+done
+
+# avoid falling back to the loop when we destroy the container
+running=1
+
 echo CKAN instance running
+
+# wait that the ckan container is ready before launching the smoketests
+sleep 10
+
+chmod u+x smoketest.sh
+sh smoketest.sh
