@@ -74,3 +74,28 @@ THIS_IS_YOUR_IP
 ```
 
 You can now access your CKAN instance using your Web browser at the address: `THIS_IS_YOUR_IP`
+
+<div style="text-align:center; background-color:lightgrey; color:#666666; margin:2px;">
+<img src ="images/homepage.png"/>
+<p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px;">CKAN homepage</p>
+</div>
+
+### 6. Notes and advices - use of CKAN
+
+One of the powerful possibilities of CKAN is to preview your coordinates data.
+<div style="text-align:center; background-color:lightgrey; color:#666666; margin:2px; float:left;">
+<img src ="images/datasets.png" style="width:50%; float:left;"/>
+<img src ="images/dataset_preview.png" style="width:50%;"/>
+<p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px; float:left; width:50%;">Data preview : table</p>
+<p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px;">Data preview : map</p>
+</div>
+
+In order to access this preview, you need to fulfill two conditions :
+- **Public dataset** : your data must be public ones, and you should provide the url pointing to them to CKAN when creating your dataset.
+- **Data type** : CKAN needs to understand your data to preview them. For this reason, you need to help him and tell him what is the format of the data you are using in your dataset.
+
+Those two conditions are shawn in the image here under:
+<div style="text-align:center; background-color:lightgrey; color:#666666; margin:2px;">
+<img src ="images/conditions.png"/>
+<p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px;">Coordinates data preview</p>
+</div>
