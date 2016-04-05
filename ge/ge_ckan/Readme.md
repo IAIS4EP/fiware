@@ -84,9 +84,9 @@ You can now access your CKAN instance using your Web browser at the address: `TH
 
 One of the powerful possibilities of CKAN is to preview your coordinates data.
 <div style="text-align:center; background-color:lightgrey; color:#666666; margin:2px; float:left;">
-<img src ="images/datasets.png" style="width:50%; float:left;"/>
-<img src ="images/dataset_preview.png" style="width:50%;"/>
-<p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px; float:left; width:50%;">Data preview : table</p>
+<img src ="images/datasets.png" style="width:250px; float:left;"/>
+<img src ="images/dataset_preview.png" style="width:250px;"/>
+<p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px; float:left; width:290px;">Data preview : table</p>
 <p style="font-size:12px; text-align:left; margin-left: 20px; margin-top: 3px;">Data preview : map</p>
 </div>
 
