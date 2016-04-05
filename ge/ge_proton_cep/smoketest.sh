@@ -10,7 +10,7 @@ echo $2
 [ "$PORT" ] || PORT="8080"
 
 at=`curl "http://$HOST:$PORT/ProtonOnWebServerAdmin/resources/instances/ProtonOnWebServer"`
-echo $at
+echo "API response: $at"
 at2='{"state":"started","definitions-url":"\/ProtonOnWebServerAdmin\/resources\/definitions\/DoSAttack2"}'
 if [ "$at" != "$at2" ];
 then

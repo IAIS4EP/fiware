@@ -1,0 +1,169 @@
+[33mcommit 2bf8550f7526079d26186294a9f51bce0bd09e78[m
+Author: marcoantonelli <info@marcoantonelli.com>
+Date:   Mon Dec 7 14:43:05 2015 +0100
+
+    Update smoketest.sh
+
+[1mdiff --git a/ge_orion/smoketest.sh b/ge_orion/smoketest.sh[m
+[1mindex b9044fa..78e8569 100644[m
+[1m--- a/ge_orion/smoketest.sh[m
+[1m+++ b/ge_orion/smoketest.sh[m
+[36m@@ -1,8 +1,12 @@[m
+ # remember to change $HOST variable [m
+ # (if you have use docker you can set localhost:1026)[m
+[32m+[m[32m# lets try to create 2 new entities with some attributes[m
+[32m+[m
+[32m+[m[32mHOST=$1[m
+[32m+[m[32mPORT=$2[m
+ [m
+ # check if daemon is running[m
+[31m-curl $HOST/version[m
+[32m+[m[32mcurl $HOST:$PORT/version[m
+ [m
+ #create a first "Machine1" Entity with two attributes: temperature and pressure[m
+ curl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '[m
+[36m@@ -17,15 +21,15 @@[m [mcurl -v -H "Accept: application/json" -H "Content-type: application/json" -X POS[m
+       "value": "720" [m
+       }[m
+     ][m
+[31m-  }' $HOST/v1/contextEntities/Machine1[m
+[32m+[m[32m  }' $HOST:$PORT/v1/contextEntities/Machine1[m
+ [m
+ #retrieve "Machine1" attributes[m
+[31m-curl $HOST/v1/contextEntities[m
+[32m+[m[32mcurl $HOST:$PORT/v1/contextEntities[m
+ [m
+ #update the value of the temperature attribute in "Machine1" [m
+ curl -v -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{[m
+     "value": "18.4"[m
+[31m-}' $HOST/v1/contextEntities/Machine1/attributes/temperature[m
+[32m+[m[32m}' $HOST:$PORT/v1/contextEntities/Machine1/attributes/temperature[m
+ [m
+ #then check that the new value is correctly updated[m
+[31m-curl $HOST/v1/contextEntities[m
+[32m+[m[32mcurl $HOST:$PORT/v1/contextEntities[m
+
+[33mcommit 67903ba410489cc1d742431d92fdab0a597cdf95[m
+Author: marcoantonelli <info@marcoantonelli.com>
+Date:   Mon Dec 7 14:40:58 2015 +0100
+
+    Update smoketest.sh
+
+[1mdiff --git a/ge_iotdiscovery/smoketest.sh b/ge_iotdiscovery/smoketest.sh[m
+[1mindex 532e679..ce34f36 100644[m
+[1m--- a/ge_iotdiscovery/smoketest.sh[m
+[1m+++ b/ge_iotdiscovery/smoketest.sh[m
+[36m@@ -37,7 +37,7 @@[m [mcurl -v -H "Accept: application/json" -H "Content-type: application/json" -X POS[m
+         }[m
+     ],[m
+     "duration": "P1M"[m
+[31m-}'  http://$HOST/ngsi9/registerContext[m
+[32m+[m[32m}'  http://$HOST:$PORT/ngsi9/registerContext[m
+ [m
+ # Retrieve info from the first entity[m
+ curl -v -H "Content-type: application/json" -X GET http://$HOST:$PORT/ngsi9/contextEntities/Room1[m
+
+[33mcommit 7ff75b6507efd7562d37d22aa230abd880f32280[m
+Author: marcoantonelli <info@marcoantonelli.com>
+Date:   Wed Nov 18 22:44:14 2015 +0100
+
+    Update smoketest.sh
+    
+    added some POST and GET tests
+
+[1mdiff --git a/ge_orion/ge_spagobi/smoketest.sh b/ge_orion/ge_spagobi/smoketest.sh[m
+[1mindex 3bf7ade..b9044fa 100644[m
+[1m--- a/ge_orion/ge_spagobi/smoketest.sh[m
+[1m+++ b/ge_orion/ge_spagobi/smoketest.sh[m
+[36m@@ -1,4 +1,31 @@[m
+[31m-# add your smoketest here - e.g. curl based API test of a GE[m
+[32m+[m[32m# remember to change $HOST variable[m[41m [m
+[32m+[m[32m# (if you have use docker you can set localhost:1026)[m
+ [m
+[31m-HOST=$1[m
+[31m-PORT=$2[m
+[32m+[m[32m# check if daemon is running[m
+[32m+[m[32mcurl $HOST/version[m
+[32m+[m
+[32m+[m[32m#create a first "Machine1" Entity with two attributes: temperature and pressure[m
+[32m+[m[32mcurl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '[m
+[32m+[m[32m  { "attributes":[m[41m [m
+[32m+[m[32m    [[m[41m [m
+[32m+[m[32m      { "name": "temperature",[m[41m [m
+[32m+[m[32m      "type": "float",[m[41m [m
+[32m+[m[32m      "value": "23"[m[41m [m
+[32m+[m[32m      },[m
+[32m+[m[32m      { "name": "pressure",[m[41m [m
+[32m+[m[32m      "type": "integer",[m[41m [m
+[32m+[m[32m      "value": "720"[m[41m [m
+[32m+[m[32m      }[m
+[32m+[m[32m    ][m
+[32m+[m[32m  }' $HOST/v1/contextEntities/Machine1[m
+[32m+[m
+[32m+[m[32m#retrieve "Machine1" attributes[m
+[32m+[m[32mcurl $HOST/v1/contextEntities[m
+[32m+[m
+[32m+[m[32m#update the value of the temperature attribute in "Machine1"[m[41m [m
+[32m+[m[32mcurl -v -H "Accept: application/json" -H "Content-type: application/json" -X PUT -d '{[m
+[32m+[m[32m    "value": "18.4"[m
+[32m+[m[32m}' $HOST/v1/contextEntities/Machine1/attributes/temperature[m
+[32m+[m
+[32m+[m[32m#then check that the new value is correctly updated[m
+[32m+[m[32mcurl $HOST/v1/contextEntities[m
+
+[33mcommit d38abf8cffde293fdf7f0c08eca312eb7f17d5df[m
+Author: marcoantonelli <info@marcoantonelli.com>
+Date:   Wed Nov 18 21:58:58 2015 +0100
+
+    Update smoketest with a first Register test
+    
+    It's my first commit so feel free to correct any mistake or give feedbacks
+
+[1mdiff --git a/ge_iotdiscovery/smoketest.sh b/ge_iotdiscovery/smoketest.sh[m
+[1mindex 3bf7ade..ffe0f1b 100644[m
+[1m--- a/ge_iotdiscovery/smoketest.sh[m
+[1m+++ b/ge_iotdiscovery/smoketest.sh[m
+[36m@@ -1,4 +1,40 @@[m
+[31m-# add your smoketest here - e.g. curl based API test of a GE[m
+[32m+[m[32m# lets try to create 2 new entities with some attributes[m
+[32m+[m[32m# remember to change $HOST variable[m[41m [m
+[32m+[m[32m# (if you have use docker you can set localhost:8080)[m
+ [m
+[31m-HOST=$1[m
+[31m-PORT=$2[m
+[32m+[m[32m# REGISTRATION[m
+[32m+[m[32mcurl -v -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{[m
+[32m+[m[32m    "contextRegistrations": [[m
+[32m+[m[32m        {[m
+[32m+[m[32m            "entities": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "type": "Room",[m
+[32m+[m[32m                    "isPattern": "false",[m
+[32m+[m[32m                    "id": "Room1"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "type": "Room",[m
+[32m+[m[32m                    "isPattern": "false",[m
+[32m+[m[32m                    "id": "Room2"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "attributes": [[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "temperature",[m
+[32m+[m[32m                    "type": "float",[m
+[32m+[m[32m                    "isDomain": "false"[m
+[32m+[m[32m                },[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    "name": "pressure",[m
+[32m+[m[32m                    "type": "integer",[m
+[32m+[m[32m                    "isDomain": "false"[m
+[32m+[m[32m                }[m
+[32m+[m[32m            ],[m
+[32m+[m[32m            "providingApplication": "http://mysensors.com/Rooms"[m
+[32m+[m[32m        }[m
+[32m+[m[32m    ],[m
+[32m+[m[32m    "duration": "P1M"[m
+[32m+[m[32m}'  http://$HOST/ngsi9/registerContext[m
+[32m+[m
+[32m+[m[32m# Retrieve info from the first entity[m
+[32m+[m[32mcurl -v -H "Content-type: application/json" -X GET http://$HOST/ngsi9/contextEntities/Room1[m

@@ -1,0 +1,252 @@
+commit 743269ab8135c242d29557f87c41f70b53a332ee
+Author: Alberto Gómez Muñoz <albertogomezmunoz@iMac-de-Alberto.local>
+Date:   Fri Oct 16 10:47:45 2015 +0100
+
+    Added script for generating the tokens
+
+diff --git a/ge_iotbroker/.DS_Store b/ge_iotbroker/.DS_Store
+new file mode 100644
+index 0000000..8808fab
+Binary files /dev/null and b/ge_iotbroker/.DS_Store differ
+diff --git a/ge_iotbroker/generate_token.sh b/ge_iotbroker/generate_token.sh
+new file mode 100644
+index 0000000..fdbcdff
+--- /dev/null
++++ b/ge_iotbroker/generate_token.sh
+@@ -0,0 +1,13 @@
++ #!/bin/bash
++green="`tput setaf 2`"
++reset="tput sgr0"
++echo "${green}Please, insert your Fiware Username"
++${reset}
++read username
++echo "${green}Please, insert your Fiware Password"
++${reset}
++read password
++request=`curl -s -d "{\"username\": \"$username\", \"password\":\"$password\"}" -H "Content-type: application/json" https://orion.lab.fiware.org/token`
++echo "${green}This is your token:"
++${reset}
++echo $request;
+\ No newline at end of file
+
+commit 9a7469e287e99ed365e913ffb7da76fddfaea290
+Author: Alberto <alberto.gm@changealert.co.uk>
+Date:   Sat Oct 3 09:05:36 2015 +0100
+
+    Added smoketest.sh, Dokerfile updated
+
+diff --git a/ge_iotbroker/Dockerfile b/ge_iotbroker/Dockerfile
+index b689746..2ac7f3a 100644
+--- a/ge_iotbroker/Dockerfile
++++ b/ge_iotbroker/Dockerfile
+@@ -21,52 +21,7 @@ wget --no-check-certiﬁcate https://raw.githubusercontent.com/fgalan/ oauth2-ex
+ 
+ curl -s -d "{\"username\": \”username@yourdomain.com \”, \"password\":\"yourpassword\"}" -H "Content-type: application/json" https://orion.lab.fiware.org/token
+ 
+-## As soon as you have the token you can start using the iOT Broker Services, for example, let's check to Santander's City sensor's information.
+-
+-curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/urn:smartsantander:testbed:357 \ -X GET -s -S --header 'Content-Type: application/json'  --header 'Accept: application/json' \  --header  "X-Auth-Token: YOUR_TOKEN" | python -mjson.tool
+-
+-## NOTE: Remember to replace YOUR_TOKEN with the token generated in the previous step
+-
+-## With iOT Broker you can create and manage any kinds of entities.
+-
+-## If you want to create a new entity, just execute this example
+-
+-(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID -X POST -s -S \
+-   --header 'Content-Type: application/json' --header 'Accept: application/json' \
+-   --header "X-Auth-Token: YOUR_TOKEN" -d @- | python -mjson.tool) <<EOF
+-{
+-    "attributes": [
+-        {
+-            "name": "name_of_the_field",
+-            "type": "type_of_the_field",
+-            "value": "value_of_the_field"
+-        },
+-    ]
+-}
+-EOF
+-
+-## NOTE: $ID is the id that your entity will have. Remember that you are using a public platform, so better create a random ID to identify your entity
+-
+-RANDOM_NUMBER=$(cat /dev/urandom | tr -dc '0-9' | fold -w 10 | head -n 1)
+-
+-## You can add as much attibutes as you want. The common types are all included (integer, float..)
+-
+-## Of course, you can query the entities
+-
+-(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID -X GET -s -S \ --header 'Content-Type: application/json' --header 'Accept: application/json'\ --header "X-Auth-Token: YOUR_TOKEN" | python -mjson.tool)
+-
+-## For modifying the values of the stored entities, you can send a request with the new values
+-
+-(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID/attributes/atribute_you_want_to_update \
+-   -X PUT -s -S --header  'Content-Type: application/json' --header 'Accept: application/json' \
+-   --header "X-Auth-Token: YOUR_TOKEN" -d @- | python -mjson.tool) <<EOF
+-{
+-    "value": "the_new_value"
+-}
+-EOF
+-
+-
+-## Note: Remember to chage atribute_you_want_to_update with the name of the field you want to update
++## As soon as you have the token you can start using the iOT Broker Services. See more examples in the smoketest.sh file
+ 
+ ## END INSTALLATION STEPS
+ 
+diff --git a/ge_iotbroker/smoketest.sh b/ge_iotbroker/smoketest.sh
+new file mode 100644
+index 0000000..a069bd1
+--- /dev/null
++++ b/ge_iotbroker/smoketest.sh
+@@ -0,0 +1,48 @@
++# add your smoketest here - e.g. curl based API test of a GE
++
++## Let's check to Santander's City sensor's information.
++
++curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/urn:smartsantander:testbed:357 \ -X GET -s -S --header 'Content-Type: application/json'  --header 'Accept: application/json' \  --header  "X-Auth-Token: YOUR_TOKEN" | python -mjson.tool
++
++## NOTE: Remember to replace YOUR_TOKEN with the token generated in the previous step
++
++## With iOT Broker you can create and manage any kinds of entities.
++
++## If you want to create a new entity, just execute this example
++
++(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID -X POST -s -S \
++   --header 'Content-Type: application/json' --header 'Accept: application/json' \
++   --header "X-Auth-Token: YOUR_TOKEN" -d @- | python -mjson.tool) <<EOF
++{
++    "attributes": [
++        {
++            "name": "name_of_the_field",
++            "type": "type_of_the_field",
++            "value": "value_of_the_field"
++        },
++    ]
++}
++EOF
++
++## NOTE: $ID is the id that your entity will have. Remember that you are using a public platform, so better create a random ID to identify your entity
++
++RANDOM_NUMBER=$(cat /dev/urandom | tr -dc '0-9' | fold -w 10 | head -n 1)
++
++## You can add as much attibutes as you want. The common types are all included (integer, float..)
++
++## Of course, you can query the entities
++
++(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID -X GET -s -S \ --header 'Content-Type: application/json' --header 'Accept: application/json'\ --header "X-Auth-Token: YOUR_TOKEN" | python -mjson.tool)
++
++## For modifying the values of the stored entities, you can send a request with the new values
++
++(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID/attributes/atribute_you_want_to_update \
++   -X PUT -s -S --header  'Content-Type: application/json' --header 'Accept: application/json' \
++   --header "X-Auth-Token: YOUR_TOKEN" -d @- | python -mjson.tool) <<EOF
++{
++    "value": "the_new_value"
++}
++EOF
++
++
++## Note: Remember to chage atribute_you_want_to_update with the name of the field you want to update
+\ No newline at end of file
+
+commit 6e4814ac0c55c11ee57586cffdbe37e5ade41de9
+Author: Alberto <alberto.gm@changealert.co.uk>
+Date:   Fri Oct 2 10:29:51 2015 +0100
+
+    Dockefile Updated
+
+diff --git a/ge_iotbroker/Dockerfile b/ge_iotbroker/Dockerfile
+index fa8675e..aeccc6d 100644
+--- a/ge_iotbroker/Dockerfile
++++ b/ge_iotbroker/Dockerfile
+@@ -6,7 +6,69 @@ RUN apt-get install svn
+ 
+ RUN svn export $COOKBOOK_URL
+ 
+-## this is a test
+-
+ # and then?..
++
++## INSTALLATION STEPS , ( more info at https://fiware-orion.readthedocs.org/en/develop/quick_start_guide/index.html )
++
++## Fist step is to create a Fiware Account here: https://account.lab.fiware.org/
++## Once you have your account created:
++## Download the token generation script by executing this command: 
++
++wget --no-check-certiﬁcate https://raw.githubusercontent.com/fgalan/ oauth2-example-orion-client/master/token_script.sh
++
++## Once is downloaded, execute it and it will ask for your fiware account details, introduce it and you will get the token.
++## If this script doesn't work for you, you can generate it manually executing this command
++
++curl -s -d "{\"username\": \”username@yourdomain.com \”, \"password\":\"yourpassword\"}" -H "Content-type: application/json" https://orion.lab.fiware.org/token
++
++## As soon as you have the token you can start using the iOT Broker Services, for example, let's check to Santander's City sensor's information.
++
++curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/urn:smartsantander:testbed:357 \ -X GET -s -S --header 'Content-Type: application/json'  --header 'Accept: application/json' \  --header  "X-Auth-Token: YOUR_TOKEN" | python -mjson.tool
++
++## NOTE: Remember to replace YOUR_TOKEN with the token generated in the previous step
++
++## With iOT Broker you can create and manage any kinds of entities.
++
++## If you want to create a new entity, just execute this example
++
++(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID -X POST -s -S \
++   --header 'Content-Type: application/json' --header 'Accept: application/json' \
++   --header "X-Auth-Token: YOUR_TOKEN" -d @- | python -mjson.tool) <<EOF
++{
++    "attributes": [
++        {
++            "name": "name_of_the_field",
++            "type": "type_of_the_field",
++            "value": "value_of_the_field"
++        },
++    ]
++}
++EOF
++
++## NOTE: $ID is the id that your entity will have. Remember that you are using a public platform, so better create a random ID to identify your entity
++
++RANDOM_NUMBER=$(cat /dev/urandom | tr -dc '0-9' | fold -w 10 | head -n 1)
++
++## You can add as much attibutes as you want. The common types are all included (integer, float..)
++
++## Of course, you can query the entities
++
++(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID -X GET -s -S \ --header 'Content-Type: application/json' --header 'Accept: application/json'\ --header "X-Auth-Token: YOUR_TOKEN" | python -mjson.tool)
++
++## For modifying the values of the stored entities, you can send a request with the new values
++
++(curl orion.lab.fi-ware.org:1026/ngsi10/contextEntities/$ID/attributes/atribute_you_want_to_update \
++   -X PUT -s -S --header  'Content-Type: application/json' --header 'Accept: application/json' \
++   --header "X-Auth-Token: YOUR_TOKEN" -d @- | python -mjson.tool) <<EOF
++{
++    "value": "the_new_value"
++}
++EOF
++
++
++## Note: Remember to chage atribute_you_want_to_update with the name of the field you want to update
++
++## END INSTALLATION STEPS
++
++
+ RUN chef-solo ####
+
+commit dc9b33071c787c37b9131e1cef14d3edd67641ab
+Author: Alberto <alberto.gm@changealert.co.uk>
+Date:   Fri Oct 2 08:53:22 2015 +0100
+
+    Test commit into iOT Broker
+
+diff --git a/ge_iotbroker/Dockerfile b/ge_iotbroker/Dockerfile
+index b401dd0..fa8675e 100644
+--- a/ge_iotbroker/Dockerfile
++++ b/ge_iotbroker/Dockerfile
+@@ -6,5 +6,7 @@ RUN apt-get install svn
+ 
+ RUN svn export $COOKBOOK_URL
+ 
++## this is a test
++
+ # and then?..
+ RUN chef-solo ####

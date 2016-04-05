@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/bash
 
 # Cleaning script : remove all containers
 # Remove also all the images if parameter -images passed
