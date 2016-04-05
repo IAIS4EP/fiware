@@ -44,11 +44,6 @@ RUN wget "${CKAN_URL}" -O CKAN.zip && \
         mv ./ckan-$CKAN_VERSION/* $CKAN_HOME/src/ckan/ && \
         rm CKAN.zip
 
-
-#ADD ckan.ini /etc/ckan/default/
-
-#RUN $CKAN_HOME/bin/pip install -r $CKAN_HOME/src/ckan/requirements.txt 
-
 RUN $CKAN_HOME/bin/pip install -e $CKAN_HOME/src/ckan/
 RUN ln -s $CKAN_HOME/src/ckan/ckan/config/who.ini $CKAN_CONFIG/who.ini
 RUN mv $CKAN_HOME/src/ckan/contrib/docker/apache.wsgi $CKAN_CONFIG/apache.wsgi
