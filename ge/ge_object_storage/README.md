@@ -34,6 +34,11 @@ Run the docker file:
 sudo service docker start
 docker build -t pbinkley/docker-swift .
 ```
+Before proceeding, please consider that the service might need a couple of minutes to start. You can check the API interface with running (given that you run the test on the localhost on port 8080):
+
+```
+sudo ./smoketest.sh localhost 8080
+```
 
 
 Run a demo that stores the data in a directory at "/path/to/data".
