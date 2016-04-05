@@ -1,5 +1,9 @@
 # DOCKER-VERSION 0.6.4
-FROM ubuntu:15.10
+FROM ubuntu:12.04
+
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get clean -y
 
 RUN	echo "deb http://archive.ubuntu.com/ubuntu precise universe" >> /etc/apt/sources.list
 
@@ -8,7 +12,7 @@ RUN	dpkg-divert --local --rename --add /sbin/initctl; ln -sf /bin/true /sbin/ini
 
 RUN	DEBIAN_FRONTEND=noninteractive apt-get update; DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
-RUN	DEBIAN_FRONTEND=noninteractive apt-get install -y rsyslog; DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils net-tools curl gcc memcached rsync sqlite3 xfsprogs git-core libffi-dev python-setuptools sudo python-coverage python-dev python-nose python-simplejson python-xattr python-eventlet python-greenlet python-pastedeploy python-netifaces python-pip python-dnspython python-mock busybox-syslogd attr openssh-server openssh-client \
+RUN	DEBIAN_FRONTEND=noninteractive apt-get install -y rsyslog; DEBIAN_FRONTEND=noninteractive apt-get install -y apt-utils net-tools curl gcc memcached rsync sqlite3 xfsprogs git-core libffi-dev python-setuptools sudo python-coverage python-dev python-nose python-simplejson python-xattr python-eventlet python-greenlet python-pastedeploy python-netifaces python-pip python-dnspython python-mock sysklogd attr openssh-server openssh-client \
     python-lxml
 
 RUN	cd /usr/local/src; git clone --depth 1 https://github.com/openstack/python-swiftclient.git
