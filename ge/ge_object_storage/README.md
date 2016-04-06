@@ -21,13 +21,17 @@ Wait a couple of seconds to let the service start. You can ensure that it is run
 `./smoketest.sh`
 
 Now deploy the API demo:
-`cd sample`
-`./deploy_demo.sh`
+```
+cd sample
+./deploy_demo.sh
+```
 
 For troubleshooting, please use:
 
+```
 docker logs swift_api
 docker logs swift_demo
+```
 
 ### MANUAL INSTALLATION
 
