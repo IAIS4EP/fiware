@@ -13,9 +13,9 @@ if(isset($_POST['action'])) {
 // -----------------------------------------------------------------------------------
 class FiwareStorage {
 
-	private $SWIFT_HOST = "localhost"; //object storage server IP or domain. e.g. "http://fiware.objectstorage.com"
-	private $SWIFT_PORT = "9999"; //object storage server port. e.g. "80"
-	private $SWIFT_CONTAINER = "swiftfun"; //container name for storing images. e.g. "images"
+	private $SWIFT_HOST = "<HOST>"; //object storage server IP or domain. e.g. "http://fiware.objectstorage.com"
+	private $SWIFT_PORT = "<PORT>"; //object storage server port. e.g. "9099"
+	private $SWIFT_CONTAINER = "testcontainer"; //container name for storing images. e.g. "images"
 	private $SWIFT_USER = "test:tester"; //user name of existing object storage account. e.g. "test:tester"
 	private $SWIFT_KEY = "testing"; //user secret key of existing object storage account. e.g. "testing"
 	private $SWIFT_URL = "";
