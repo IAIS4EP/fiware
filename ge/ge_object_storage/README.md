@@ -11,7 +11,7 @@ one for the Enabler API, one for a demo client accessing the API.
 #### Preparation
 
 - pull this repository
-- adjust configuration of the demo client in sample/fiwareImageStorage.php with the hostname (not localhost) and optionally the API port (we used 9099) as it is quite rare. Please note that the demo assumes that the Object Storage uses a storage called "testcontainer" (which will be created during the test execution).
+- adjust configuration of the demo client in `sample/fiwareImageStorage.php` with the hostname (NOT localhost!) and optionally the API port (we used 9099) as it is quite rare. Please note that the demo assumes that the Object Storage uses a storage called "testcontainer" (which will be created during the test execution).
 
 deploy the API container:
 
@@ -115,9 +115,9 @@ The client uses these operations for storing, retrieving and removing images fro
 
 The PHP code contains place holders (which you need to fill) for the actual Object Storage Server details:
 
-<b>FIWARE OBJECT STORAGE SERVER</b>&nbsp;//object storage server IP or domain. e.g. "http://fiware.objectstorage.com"<br>
-<b>FIWARE OBJECT STORAGE PORT</b>&nbsp;//object storage server port. e.g. "80"<br>
-<b>CONTAINER NAME</b>&nbsp;//container name for storing images. e.g. "images"<br>
+<b>FIWARE OBJECT STORAGE SERVER</b>&nbsp;//object storage server IP or domain.
+<b>FIWARE OBJECT STORAGE PORT</b>&nbsp;//object storage server port, e.g. "9099"<br>
+<b>CONTAINER NAME</b>&nbsp;//container name for storing images. e.g. "testcontainer"<br>
 <b>USER NAME</b>&nbsp;//user name of existing object storage account. e.g. "test:tester"<br>
 <b>USER KEY</b>&nbsp;//user secret key of existing object storage account. e.g. "testing"<br>
 
