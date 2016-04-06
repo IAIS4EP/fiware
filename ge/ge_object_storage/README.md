@@ -1,12 +1,33 @@
-Object storage
+API Deployment | Object storage
 ==============
 
 This demo was tested on a clean Ubuntu 15.04.
 
-### EASY INSTALLATION
+### Quick End-to-End Test, or Information for the Impatient.
 
-Simply download this repo and run `./easy_install.sh`
+This test setup requires Docker and consists of two test environments; 
+one for the Enabler API, one for a demo client accessing the API.
 
+#### Preparation
+
+- pull this repository
+- adjust configuration of the demo client in sample/fiwareImageStorage.php with the hostname (not localhost) and optionally the API port (we used 9099) as it is quite rare. Please note that the demo assumes that the Object Storage uses a storage called "testcontainer" (which will be created during the test execution).
+
+deploy the API container:
+
+`./deploy_api.sh`
+
+Wait a couple of seconds to let the service start. You can ensure that it is running and operates correctly like this:
+`./smoketest.sh`
+
+Now deploy the API demo:
+`cd sample`
+`./deploy_demo.sh`
+
+For troubleshooting, please use:
+
+docker logs swift_api
+docker logs swift_demo
 
 ### MANUAL INSTALLATION
 
@@ -18,7 +39,6 @@ sudo apt-get install docker.io
 sudo apt-get install git
 
 ```
-
 
 Clone the repository:
 
@@ -77,7 +97,7 @@ And simply run the demo:
 ./demo.sh
 ```
 
-Sample Code
+API Demo  | Sample Code
 -----------
 
 The sample directory contains sample code for using Object Storage API.
@@ -101,9 +121,14 @@ The PHP code contains place holders (which you need to fill) for the actual Obje
 smoketest.sh
 ------------
 The smoketest.sh gives a simple way to test basic API functionality.
+The script must exit with exit code 0 and produce a result test file retrieved_demo.sh
+
+
+Optional way to deploy API if the above ./deploy_api.sh is not working as fall back helper.
+------------
 ```
 > docker run -v /srv --name SWIFT_DATA busybox
-> docker run -d -p 8080:8080 --name=swiftfun -e SWIFT_DEFAULT_CONTAINER=container_name --volumes-from SWIFT_DATA -t morrisjobke/docker-swift-onlyone
-> ./smoketest.sh localhost 8080
+> docker run -d -p 9099:8080 --name=swiftfun -e SWIFT_DEFAULT_CONTAINER=container_name --volumes-from SWIFT_DATA -t morrisjobke/docker-swift-onlyone
+> ./smoketest.sh localhost 9099
 ```
-The script must exit with exit code 0 and produce a result test file retrieved_demo.sh
+
