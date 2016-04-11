@@ -22,7 +22,7 @@ View : fiwareImageStorage.php
 
 <b>application/config/config.php</b>
 
-Set base url in config.php file: $config['base_url'] =  '<HOST URL>';
+Set base url in config.php file: $config['base_url'] =  "<HOST URL>";
 
 <b>application/controller/image_storage.php</b>
 
