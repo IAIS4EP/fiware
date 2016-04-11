@@ -2,7 +2,7 @@
 
 class Image_Storage extends CI_Controller {
 
-	private $SWIFT_HOST = "http://54.213.242.73"; //object storage server IP or domain. e.g. "http://fiware.objectstorage.com"
+	private $SWIFT_HOST = "<HOST>"; //object storage server IP or domain. e.g. "http://fiware.objectstorage.com"
 	private $SWIFT_PORT = "8080"; //object storage server port. e.g. "80"
 	private $SWIFT_CONTAINER = "testcontainer"; //container name for storing images. e.g. "images"
 	private $SWIFT_USER = "test:tester"; //user name of existing object storage account. e.g. "test:tester"
@@ -19,9 +19,10 @@ class Image_Storage extends CI_Controller {
 		$status=''; 
 		try {
 		
-			if(isset($_POST['action'])) {  echo $_POST['action'];
+			if(isset($_POST['action'])) {  
 				if($_POST['action']=='upload') 
-					echo $status =	$this->upload();
+					$status =	$this->upload();
+				if($_POST['action']=='remove') $this->remove();	
 				
 			} 
 			$auth = $this->fiwareAuth();
@@ -30,6 +31,7 @@ class Image_Storage extends CI_Controller {
 				return;
 			}
 			$SWIFT_STORAGE_URL = $auth["storageUrl"].'/'.$this->SWIFT_CONTAINER;
+			
 			$ch = curl_init();
 			curl_setopt($ch,CURLOPT_URL,$SWIFT_STORAGE_URL.'?format=json');
 			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,30);
@@ -56,23 +58,21 @@ class Image_Storage extends CI_Controller {
 	}
 	
 	public function upload(){
-	echo 'naina';
 		if(!isset($_FILES["file"]) || $_FILES["file"]['error'] != UPLOAD_ERR_OK || !is_uploaded_file($_FILES["file"]['tmp_name'])) {
 			$fileError = isset($_FILES["file"]) ? $_FILES["file"]['error'] : 'file not uploaded - got empty file';
 			$status = "File Upload Error: " . $fileError;
 			return $status;
 		}
 		//uploaded file name
-		echo $fileName = $_FILES["file"]['name'];
+		$fileName = $_FILES["file"]['name'];
 		$filePath = $_FILES["file"]['tmp_name'];
 		try {
-			$auth = $this->fiwareAuth(); print_r($auth);
+			$auth = $this->fiwareAuth(); 
 			if ($auth["errorcode"] != 0) {
 				$status = "Failed to upload file: Error [".$auth["errorcode"]."]. Message: ".$auth["errormessage"];
 				return $status;
 			}
-			
-			//header("Content-Type: image/jpeg");
+
 			$SWIFT_FILE_URL = $auth["storageUrl"].'/'.$this->SWIFT_CONTAINER.'/'.$fileName;
 			$uploadedFileSize = filesize($filePath);
 			$fh_res = fopen($filePath, 'r');
@@ -91,21 +91,25 @@ class Image_Storage extends CI_Controller {
 			));
 			curl_setopt($ch,CURLOPT_INFILE, $fh_res);
 			curl_setopt($ch,CURLOPT_INFILESIZE, $uploadedFileSize);
+			
 			$resp = curl_exec ($ch); 
 			fclose($fh_res);
+			
 			$info = curl_getinfo($ch);
 			$httpStatus = isset($info['http_code']) ? (int)$info['http_code'] : 500;
+			
 			curl_close ($ch);
+			
 			if (!in_array($httpStatus,array(200,201,202,204))){
-				echo $status = "Failed to store file. Http Error: "+$httpStatus;
+				$status = "Failed to store file. Http Error: "+$httpStatus;
 				return $status;
 			}	
 			else{
-				echo $status = "File ".$fileName." successfully uploaded. (size: ".$uploadedFileSize.")"; 
+				$status = "File ".$fileName." successfully uploaded. (size: ".$uploadedFileSize.")"; 
 				return $status; 
 				}
 		} catch(Exception $e) {
-			echo $status = "Failed to upload file: Error : ".$e->getMessage();
+			$status = "Failed to upload file: Error : ".$e->getMessage();
 			return $status; 
 		}
 		
@@ -135,6 +139,36 @@ class Image_Storage extends CI_Controller {
 			
 		} catch(Exception $e) {
 			$this->showMessage("Failed to get file");
+		}
+	}
+	
+	
+	public function remove() {
+		$fileName = $_POST['fileName'];
+		try {
+			$auth = $this->fiwareAuth();
+			if ($auth["errorcode"] != 0) {
+				$status = "Failed to remove file: Error [".$auth["errorcode"]."]. Message: ".$auth["errormessage"];
+				return $status;
+			}
+			$SWIFT_FILE_URL = $auth["storageUrl"].'/'.$this->SWIFT_CONTAINER.'/'.$fileName;
+			$ch = curl_init();
+			curl_setopt($ch,CURLOPT_URL,$SWIFT_FILE_URL);
+			curl_setopt($ch,CURLOPT_CUSTOMREQUEST, "DELETE");
+			curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,30);
+			curl_setopt($ch,CURLOPT_TIMEOUT,60);
+			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+			curl_setopt($ch,CURLOPT_HEADER,1);
+			curl_setopt($ch,CURLOPT_HTTPHEADER, array(
+				'X-Auth-Token: '.$auth["authToken"]
+			));
+			curl_exec ($ch);
+			curl_close ($ch);
+			$status = $fileName." Has been removed.";
+			return $status;
+		} catch(Exception $e) {
+			$status = "Failed to remove file";
+			return $status;
 		}
 	}
 	
@@ -184,5 +218,5 @@ class Image_Storage extends CI_Controller {
 	}
 }
 
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
+/* End of file */
+/* Location: ./application/controllers/image_storage.php */

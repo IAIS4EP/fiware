@@ -22,7 +22,7 @@
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://54.213.242.73/objstorage/';
+$config['base_url'] = '<HOST URL>';
 
 /*
 |--------------------------------------------------------------------------
