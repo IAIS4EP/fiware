@@ -15,8 +15,8 @@ PHP application framework : CodeIgniter 2.2.6
 # API Sample Code
 This sample directory contains sample code for using Object Storage API in CI.
 ```
-<b> Controller </b>: image_storage.php
-<b> View </b>: fiwareImageStorage.php
+Controller : image_storage.php
+View : fiwareImageStorage.php
 
 ```
 
