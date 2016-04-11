@@ -17,9 +17,9 @@ First you need to set a new Application under your keyrock instance and get its 
 
 Then set the following fields in <b>application/config/config.php</b> :
 
-<b>$config['base_url'] =  'HOST URL'</b>
-<b>$config['fiwareClientId'] = '<FIWARE CLIENT ID>'</b>
-<b>$config['fiwareSecret'] = '<FIWARE SECRET KEY>'</b>
+<b>$config['base_url'] =  'HOST URL'</b><br>
+<b>$config['fiwareClientId'] = 'FIWARE CLIENT ID'</b><br>
+<b>$config['fiwareSecret'] = 'FIWARE SECRET KEY'</b><br>
 
 ```
 Controller : application/controller/fiware_login.php
