@@ -5,6 +5,9 @@
 echo Declare variables ... 
 echo
 
+
+CUSTOM_CKAN_PORT=9091
+
 export POSTGRESQL_CONTAINER=postgresql
 export SOLR_CONTAINER=solr
 export CKAN_IMAGE=ckan_image
@@ -24,7 +27,7 @@ docker build -t ${CKAN_IMAGE} .
 echo Create CKAN instance ... 
 echo
 
-docker run -d -p 80:80 --link ${POSTGRESQL_CONTAINER}:db --link ${SOLR_CONTAINER}:solr --name ${CKAN_CONTAINER} ${CKAN_IMAGE}
+docker run -d -p $CUSTOM_CKAN_PORT:80 --link ${POSTGRESQL_CONTAINER}:db --link ${SOLR_CONTAINER}:solr --name ${CKAN_CONTAINER} ${CKAN_IMAGE}
 
 # case in which we build CKAN before postgresql is fully ready : before result != 0
 result=$(docker inspect --format '{{ .State.ExitCode }}' ${POSTGRESQL_CONTAINER})
