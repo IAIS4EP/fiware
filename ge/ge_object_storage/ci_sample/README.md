@@ -36,7 +36,7 @@ In this controller, you need to fill the following Object Storage Server Details
 
 
 
-##Important Note : This sample cannot download images greater than 400KB.
+#### Important Note : This sample cannot download images greater than 400KB.
 
 
 
