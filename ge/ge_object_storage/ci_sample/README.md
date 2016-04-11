@@ -38,7 +38,7 @@ In this controller, you need to fill the following Object Storage Server Details
 
 <b>Important </b> : This sample cannot download images greater than 400KB.
 
-For CI, refer to this user guide link : http://www.codeigniter.com/userguide2/
+For CodeIgniter, refer to this user guide link : http://www.codeigniter.com/userguide2/
 
 
 
