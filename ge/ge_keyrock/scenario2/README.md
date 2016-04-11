@@ -1,9 +1,38 @@
-# CodeIgniter 2
-Open Source PHP Framework (originally from EllisLab)
 
-For more info, please refer to the user-guide at http://www.codeigniter.com/userguide2/  
-(also available within the download package for offline use)
+# CodeIgniter Sample for Keyrock OAuth API
+This demo was tested on a clean ubuntu 15.10
 
-**WARNING:** *CodeIgniter 2.x is no longer under development and only receives security patches until October 31st, 2015.
-Please update your installation to the latest CodeIgniter 3.x version available
-(upgrade instructions [here](http://www.codeigniter.com/userguide3/installation/upgrade_300.html)).*
+To start with make sure you have the required configuration
+
+```
+Ubuntu 15.10
+Apache 2.4.12
+PHP 5.6.11
+PHP application framework : CodeIgniter 2.2.6
+
+```
+
+# Setting An Application
+First you need to set a new Application under your keyrock instance and get its client id and secret key.
+
+Then set the following fields in <b>application/config/config.php</b> :
+
+<b>$config['base_url'] =  'HOST URL'</b>
+<b>$config['fiwareClientId'] = '<FIWARE CLIENT ID>'</b>
+<b>$config['fiwareSecret'] = '<FIWARE SECRET KEY>'</b>
+
+```
+Controller : application/controller/fiware_login.php
+```
+ Change Redirect URL to : ```http://your.ip/index.php/fiware_login/fwlogin``` in both of these places:
+
+  * The application in your KeyRock instance 
+  * The ```redirect_uri``` variable in contoller ```application/controller/fiware_login.php```
+
+
+
+
+
+
+
+
