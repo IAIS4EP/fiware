@@ -2,15 +2,13 @@
 
 set -e
 
-# Get container id
-container=($(docker ps | awk '{ print $1 }'))
-container_id=${container[1]}
+export CKAN_CONTAINER=ckan
 
 # Get IP depending on the OS : IP of the VM on Mac OS, IP of the container on others
 if [[ `uname` == 'Darwin'* ]]; then
 	IP=$(docker-machine ip $(docker-machine active))
 else
-	IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' ${container_id})
+	IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' ${CKAN_CONTAINER})
 fi
 
 # get port
