@@ -12,12 +12,11 @@ class Model_user extends CI_Model
 	}
 	
 	public function saveFiwareUser($access_token){
-		//echo 'token:'.$access_token;
-		// after access token same for mobile
+		
 		$this->access_token=$access_token;
 		$graph_url 	= "http://account.lab.fi-ware.org/user?access_token=".$access_token;
-		$user 		= json_decode(file_get_contents($graph_url));					// USER DATA FROM FACEBOOK
-		//print_r($user);
+		$user 		= json_decode(file_get_contents($graph_url));				// USER DATA FROM FIWARE
+		
 		$return['status']	=	false;
 		$return['message']	=	"Oops! site OverWorked";
 		
