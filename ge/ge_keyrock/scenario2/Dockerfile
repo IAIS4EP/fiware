@@ -1,28 +1,21 @@
-FROM centurylink/apache-php:latest
+FROM ubuntu:latest
 
-RUN export igniter_version=2.2.6
-RUN echo "setting framework version to: $igniter_version"
+RUN apt-get update && apt-get upgrade -y
 
+# Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 libapache2-mod-php5 php5-mysql php5-gd php-pear php5-curl curl lynx-cur
 
-RUN apt-get -y update 
-RUN apt-get -y install apache2 libapache2-mod-php5 php5-mysql
-RUN apt-get -y install mysql-client unzip wget 
-RUN apt-get -y install php5-curl 
-RUN apache2ctl restart  
- 
- 
-WORKDIR /tmp 
-RUN wget https://github.com/bcit-ci/CodeIgniter/archive/2.2.6.zip
-
-RUN unzip 2.2.6.zip && mv CodeIgniter-2.2.6 /app
-
-WORKDIR /app
-
-ADD . /app
-
-
-# Fix permissions for apache
-RUN chown -R www-data:www-data /app
+# Enable apache mods.
+RUN a2enmod php5
+RUN a2enmod rewrite
 
 EXPOSE 80
-CMD ["/run.sh"]
+
+# Copy site into place.
+ADD . /var/www/site
+
+# Update the default apache site with the config we created.
+ADD config/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
+
+# By default, simply start apache.
+CMD /usr/sbin/apache2ctl -D FOREGROUND
